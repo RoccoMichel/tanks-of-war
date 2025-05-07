@@ -6,6 +6,7 @@ public class Turret : MonoBehaviour
     [Header("Ammo")]
     public bool infiniteAmmo;
     public int ammo = 10;
+    public int maxAmmo = 10;
 
     [Header("Shooting")]
     public float turnSpeed = 3;
@@ -43,5 +44,24 @@ public class Turret : MonoBehaviour
 
         Instantiate(bullet, muzzle.position, transform.rotation);
         Destroy(Instantiate(muzzleFlash, muzzle.position, muzzle.rotation), 0.4f);
+    }
+
+    /// <summary>
+    /// Sets ammo to maxAmmo no matter what
+    /// </summary>
+    public virtual void RefillFull() 
+    {
+        ammo = maxAmmo;
+    }
+
+    public virtual void RefillSpecific(int amount)
+    {
+        ammo = Mathf.Clamp(ammo + amount, 0, maxAmmo);
+    }
+
+    public bool CanReload()
+    {
+        if (ammo < maxAmmo) return true;
+        else return false;
     }
 }

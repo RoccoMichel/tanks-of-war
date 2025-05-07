@@ -18,7 +18,13 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.transform.TryGetComponent(out Entity entity)) return;
+        if (!collision.transform.TryGetComponent(out Entity entity))
+        {
+            // When bullet hits a normal collider
+            // play effect / sound
+            Destroy(gameObject);
+            return;        
+        }
 
         entity.TakeDamage(damage);
         Destroy(gameObject);
