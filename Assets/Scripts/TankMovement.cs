@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class TankMovement : MonoBehaviour
 {
     public float rotationSpeed = 5;
-    public float driveSpeed = 3;
+    public float driveSpeed = 5;
     private new Rigidbody2D rigidbody;
     private InputAction moveAction;
     void Start()

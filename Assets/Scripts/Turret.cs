@@ -31,7 +31,6 @@ public class Turret : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime * 100f);
 
-
         // Shooting
         if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo)) Shoot(bullet);
         timer = Mathf.Clamp(timer - Time.deltaTime, 0, float.MaxValue);
