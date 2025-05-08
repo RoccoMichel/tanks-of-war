@@ -6,7 +6,9 @@ public class Bullet : MonoBehaviour
     public float speed = 10;
     public float range = 8;
     [SerializeField] protected GameObject landEffect;
-    private new Rigidbody2D rigidbody;
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
+    private Rigidbody2D rigidbody;
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
     private Vector3 startPosition;
 
     private void Start()

@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: driveSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: rotationSpeed
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: roadMultiplier
+      value: 1.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4373819240325577056, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_Name
       value: Blue Tank
@@ -51,6 +63,26 @@ PrefabInstance:
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: ammo
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: bullet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: maxAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: turnSpeed
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: secondsBetweenFire
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 6518583336401168340, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_Sprite

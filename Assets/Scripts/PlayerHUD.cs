@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -14,12 +15,14 @@ public class PlayerHUD : MonoBehaviour
     private GameObject player;
     private InputAction quickLookAction;
     private InputAction menuAction;
+    internal string[] RoomInfo;
 
     private void Start()
     {
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
-        code.text = PhotonNetwork.CurrentRoom.ToString();
+        RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
+        code.text = $"Code: {RoomInfo[1]}";
         menu.SetActive(false);
     }
 
@@ -50,6 +53,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void Exit()
     {
+        PhotonNetwork.LeaveRoom(false);
         SceneManager.LoadScene(0);
     }
 }

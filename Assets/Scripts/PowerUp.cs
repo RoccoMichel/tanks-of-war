@@ -2,20 +2,34 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    public bool limited;
     [Tooltip("Ignore if not relevant")]
+    public float limitedTime = 5;
     public int specifier;
     public Powers powerUp;
+    private float timer;
+
     public enum Powers
     {
-        refillFull,
-        refillSpecific,
-        healthFull,
-        healthSpecific,
+        None,
+        RefillFull,
+        RefillSpecific,
+        HealthFull,
+        HealthSpecific,
 
         // NOT IMPLEMENTED YET:
 
-        speedUp,
-        invincible
+        SpeedUp,
+        Invincible
+    }
+
+    private void Update()
+    {
+        // If object has limited time delete after time
+        if (!limited) return;
+
+        timer += Time.deltaTime;
+        if (timer > limitedTime) Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,36 +43,36 @@ public class PowerUp : MonoBehaviour
 
         switch (powerUp)
         {
-            case Powers.refillFull:
+            case Powers.RefillFull:
                 if (!turret.CanReload()) return;
                 turret.RefillFull();
 
                 break;
 
-            case Powers.refillSpecific:
+            case Powers.RefillSpecific:
                 if (!turret.CanReload()) return;
                 turret.RefillSpecific(specifier);
 
                 break;
 
-            case Powers.healthFull:
+            case Powers.HealthFull:
                 if (player.health >= player.maxHealth) return;
                 player.Heal(player.maxHealth);
 
                 break;
 
-            case Powers.healthSpecific:
+            case Powers.HealthSpecific:
                 if (player.health >= player.maxHealth) return;
                 player.Heal(specifier);
 
                 break;
 
-            case Powers.speedUp:
+            case Powers.SpeedUp:
                 movement.driveSpeed++;                      //////////
 
                 break;
 
-            case Powers.invincible:
+            case Powers.Invincible:
                 player.isImmortal = true;                   //////////
 
                 break;

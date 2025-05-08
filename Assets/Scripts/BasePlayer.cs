@@ -3,6 +3,7 @@ using UnityEngine;
 public class BasePlayer : Entity
 {
     [Header("Player Settings")]
+    public int score;
     [SerializeField] ParticleSystem damageEffect;
 
     private void Update()
@@ -23,5 +24,11 @@ public class BasePlayer : Entity
     public override void Die()
     {
         Debug.Log("Player Died");
+        gameObject.SetActive(false);
+    }
+
+    public void AddScore(int amount)
+    {
+        health += amount;
     }
 }

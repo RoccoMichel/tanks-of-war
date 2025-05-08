@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: driveSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: roadMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4373819240325577056, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_Name
       value: Red Tank
@@ -53,8 +61,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: ammo
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: bullet
-      value: 1
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: maxAmmo
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: turnSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: secondsBetweenFire
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6518583336401168340, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_Sprite

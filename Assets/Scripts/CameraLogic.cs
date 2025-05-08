@@ -1,49 +1,77 @@
 using UnityEngine;
-using System.Collections.Generic;
 
+[RequireComponent(typeof(Camera))]
 public class CameraLogic : MonoBehaviour
 {
-    private const float DISTANCE_MARGIN = 1.0f;
-    private List<Transform> players = new();
+    [Header("Movement")]
+    public float moveSpeed = 5f;
+    public Vector2 minBounds;
+    public Vector2 maxBounds;
+    private float camHalfHeight;
+    private float camHalfWidth;
 
-    private Vector3 middlePoint;
-    private float distanceFromMiddlePoint;
-    private float distanceBetweenPlayers;
-    private float cameraDistance;
-    private float aspectRatio;
-    private float fov;
-    private float tanFov;
+    [Header("Zooming")]
+    public float zoomSpeed = 4f;
+    public float minZoom = 3f;
+    public float maxZoom = 50f;
+    public float zoomLimiter = 130f;
+
+    private Camera cam;
 
     void Start()
     {
-        aspectRatio = Screen.width / Screen.height;
-        tanFov = Mathf.Tan(Mathf.Deg2Rad * Camera.main.fieldOfView / 2.0f);
+        cam = GetComponent<Camera>();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        // Assigning Players
-        players.Clear();
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            players.Add(player.transform);
+        // Assigning
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        if (players.Count == 0) return;
+        if (players.Length == 0)
+            return;
 
-        //// Position the camera in the center.
-        //Vector3 newCameraPos = Camera.main.transform.position;
-        //newCameraPos.x = middlePoint.x;
-        //Camera.main.transform.position = newCameraPos;
+        // Positioning
+        Vector3 centerPoint = GetCenterPoint(players);
+        Vector3 newPosition = new(centerPoint.x, centerPoint.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, newPosition, moveSpeed * Time.deltaTime);
 
-        //// Find the middle point between players.
-        //Vector3 vectorBetweenPlayers = player2.position - player1.position;
-        //middlePoint = player1.position + 0.5f * vectorBetweenPlayers;
+        // Zooming
+        float targetDistance = GetGreatestDistance(players);
+        float newZoom = Mathf.Lerp(minZoom, maxZoom, targetDistance / zoomLimiter);
+        newZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime * zoomSpeed);
 
-        //// Calculate the new distance.
-        //distanceBetweenPlayers = vectorBetweenPlayers.magnitude;
-        //cameraDistance = (distanceBetweenPlayers / 2.0f / aspectRatio) / tanFov;
+        // Clamping
+        camHalfHeight = cam.orthographicSize;
+        camHalfWidth = cam.orthographicSize * cam.aspect;
 
-        //// Set camera to new position.
-        //Vector3 dir = (Camera.main.transform.position - middlePoint).normalized;
-        //Camera.main.transform.position = middlePoint + dir * (cameraDistance + DISTANCE_MARGIN);
+        Vector3 clampedPos = transform.position;
+        clampedPos.x = Mathf.Clamp(clampedPos.x, minBounds.x + camHalfWidth, maxBounds.x - camHalfWidth);
+        clampedPos.y = Mathf.Clamp(clampedPos.y, minBounds.y + camHalfHeight, maxBounds.y - camHalfHeight);
+
+        transform.position = clampedPos;
+    }
+
+    Vector3 GetCenterPoint(GameObject[] objects)
+    {
+        if (objects.Length == 1)
+            return objects[0].transform.position;
+
+        Bounds bounds = new(objects[0].transform.position, Vector3.zero);
+        foreach (GameObject obj in objects)
+        {
+            bounds.Encapsulate(obj.transform.position);
+        }
+        return bounds.center;
+    }
+    float GetGreatestDistance(GameObject[] objects)
+    {
+        Bounds bounds = new(objects[0].transform.position, Vector3.zero);
+        foreach (GameObject obj in objects)
+        {
+            bounds.Encapsulate(obj.transform.position);
+        }
+        return Mathf.Max(bounds.size.x, bounds.size.y);
     }
 }

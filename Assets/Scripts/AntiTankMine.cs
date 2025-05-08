@@ -9,7 +9,7 @@ public class AntiTankMine : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<BasePlayer>().TakeDamage(damage);
-            ParticleSystem explosion = Instantiate(explosionEffect).GetComponent<ParticleSystem>();
+            ParticleSystem explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
             Destroy(explosion.gameObject, explosion.main.duration);
             Destroy(gameObject);
         }

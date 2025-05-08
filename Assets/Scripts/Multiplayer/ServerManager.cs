@@ -8,14 +8,18 @@ public class ServerManager : MonoBehaviourPunCallbacks
     public bool debug;
     [SerializeField] Button serverButton;
     [SerializeField] TMP_InputField nameField;
+    [SerializeField] TMP_Dropdown gamemodeSelector;
     public bool validName;
     LobbyManager lobbyManager;
 
     void Start()
     {
+        if (serverButton != null) serverButton.interactable = false;
         try { lobbyManager = GetComponent<LobbyManager>(); } 
         catch { Debug.LogWarning("missing lobbyManager Reference"); }
-        
+
+        if (gamemodeSelector != null) gamemodeSelector.value = PlayerPrefs.GetInt("Prefered Gamemode", 2);
+
         PhotonNetwork.ConnectUsingSettings();
         if (debug) print("Connecting...");
     }
@@ -28,9 +32,9 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        serverButton.interactable = PhotonNetwork.IsConnected;
-
-        //serverButtons[1].interactable = validName && lobbyManager.IsValidateJoinCode();
+        if (lobbyManager.code.text.Length <= 1) serverButton.interactable = PhotonNetwork.IsConnected;
+        else if (lobbyManager.IsValidateJoinCode()) serverButton.interactable = true;
+        else serverButton.interactable = false;
     }
 
     public void ExitGame()
@@ -46,5 +50,10 @@ public class ServerManager : MonoBehaviourPunCallbacks
         validName = true;
         PhotonNetwork.NickName = nameField.text;
         if (debug) print($"Changed Name to: {nameField.text}");
+    }
+
+    public void ChangedPreferedGameMode()
+    {
+        if (gamemodeSelector != null) PlayerPrefs.SetInt("Prefered Gamemode", gamemodeSelector.value);
     }
 }

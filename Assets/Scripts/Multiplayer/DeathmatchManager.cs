@@ -11,10 +11,10 @@ public class DeathmatchManager : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] internal bool quickLooking;
     [SerializeField] protected float labelSize = 250f;
-    [HideInInspector] public ServerPlayer winner;
+    [HideInInspector] public BasePlayer winner;
     protected InputAction quickLookAction;
 
-    public List<ServerPlayer> players = new();
+    public List<BasePlayer> players = new();
 
     private void Start()
     {
@@ -29,9 +29,9 @@ public class DeathmatchManager : MonoBehaviour
         if (winner = null) CheckForWinner(players.ToArray());
     }
 
-    void CheckForWinner(ServerPlayer[] players)
+    void CheckForWinner(BasePlayer[] players)
     {
-        foreach(ServerPlayer p in players)
+        foreach(BasePlayer p in players)
         {
             if (p.score >= minWinScore)
             {
@@ -58,7 +58,7 @@ public class DeathmatchManager : MonoBehaviour
             if (true != false)
             {
                 Vector2 position = Vector2.zero;
-                foreach (ServerPlayer p in players)
+                foreach (BasePlayer p in players)
                 {
                     position += new Vector2(position.x, labelSize);
                     GUI.Label(new Rect(position, Vector2.one * labelSize), $"{p.identity}\t|{p.score}");

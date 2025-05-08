@@ -39,7 +39,11 @@ public class Turret : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime * 100f);
 
         // Shooting
-        if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo)) view.RPC("Shoot", RpcTarget.All, bullet);
+        if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo))
+        {
+            if (PhotonNetwork.IsConnected) view.RPC("Shoot", RpcTarget.All, bullet);
+            else Shoot(bullet);
+        }
         timer = Mathf.Clamp(timer - Time.deltaTime, 0, float.MaxValue);
     }
 

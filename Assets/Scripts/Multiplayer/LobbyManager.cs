@@ -2,17 +2,18 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public bool debug;
-    [SerializeField] TMP_Text code;
+    public TMP_Text code;
     [SerializeField] Animator error;
     public int codeLength;
 
     public void Play()
     {
-        if (string.IsNullOrWhiteSpace(code.text)) JoinGame();
+        if (IsValidateJoinCode()) JoinGame();
         else RandomGame();
     }
 
@@ -34,13 +35,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             MaxPlayers = 5,
         };
 
-        PhotonNetwork.CreateRoom($"Lobby#{num}", options);
+        PhotonNetwork.CreateRoom(num.ToString(), options);
         if (debug) print($"room {num} has been created!");
+    }
+
+    public void CreateGame(string code)
+    {
+        if (debug) print("creating room...");
+
+        RoomOptions options = new()
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = 5,
+        };
+
+        PhotonNetwork.CreateRoom(code, options);
+        if (debug) print($"room {code} has been created!");
     }
 
     public void JoinGame()
     {
-        PhotonNetwork.JoinRoom(code.text, null);
+        PhotonNetwork.JoinRoom(code.text, null);                // NOT WORKING???
         if (debug) print($"trying to join room {code.text}...");
     }
 
@@ -91,5 +107,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (debug) print($"couldn't join a room! {message}");
         if (debug) print("creating own Instead...");
         CreateGame();
+    }
+    public void LoadSceneByName(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
