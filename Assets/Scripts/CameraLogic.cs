@@ -27,9 +27,7 @@ public class CameraLogic : MonoBehaviour
     {
         // Assigning
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        if (players.Length == 0)
-            return;
+        if (players.Length == 0) return;
 
         // Positioning
         Vector3 centerPoint = GetCenterPoint(players);
@@ -55,23 +53,20 @@ public class CameraLogic : MonoBehaviour
 
     Vector3 GetCenterPoint(GameObject[] objects)
     {
-        if (objects.Length == 1)
-            return objects[0].transform.position;
+        if (objects.Length == 1) return objects[0].transform.position;
 
         Bounds bounds = new(objects[0].transform.position, Vector3.zero);
         foreach (GameObject obj in objects)
-        {
             bounds.Encapsulate(obj.transform.position);
-        }
+
         return bounds.center;
     }
     float GetGreatestDistance(GameObject[] objects)
     {
         Bounds bounds = new(objects[0].transform.position, Vector3.zero);
         foreach (GameObject obj in objects)
-        {
             bounds.Encapsulate(obj.transform.position);
-        }
+
         return Mathf.Max(bounds.size.x, bounds.size.y);
     }
 }
