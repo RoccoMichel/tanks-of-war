@@ -2,6 +2,16 @@ using UnityEngine;
 
 public class BasePlayer : Entity
 {
+    [Header("Player Settings")]
+    [SerializeField] ParticleSystem damageEffect;
+
+    private void Update()
+    {
+        var effect = damageEffect.emission;
+        float rateOverTime = Mathf.Lerp(40, 0, Mathf.InverseLerp(0, maxHealth / 3, health));
+        effect.rateOverTime = Mathf.Floor(Mathf.Pow(rateOverTime, 1.2f));
+    }
+
     public virtual bool TryHeal(int amount)
     {
         if (health >= maxHealth) return false;

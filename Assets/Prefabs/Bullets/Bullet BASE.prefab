@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   speed: 10
+  range: 5
+  landEffect: {fileID: 6680626202180116905, guid: ac48ac36cf605f644af956adc02bd7c4, type: 3}
 --- !u!212 &7379820803843561072
 SpriteRenderer:
   m_ObjectHideFlags: 0

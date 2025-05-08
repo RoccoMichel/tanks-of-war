@@ -5,36 +5,43 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] GameObject errorMessage;
+    public bool debug;
     [SerializeField] TMP_Text code;
+    [SerializeField] Animator error;
     public int codeLength;
+
+    public void Play()
+    {
+        if (string.IsNullOrWhiteSpace(code.text)) JoinGame();
+        else RandomGame();
+    }
 
     public void RandomGame()
     {
         PhotonNetwork.JoinRandomRoom();
-        print("trying to join room...");
+        if (debug) print("trying to join room...");
     }
 
     public void CreateGame()
     {
-        print("creating room...");
+        if (debug) print("creating room...");
 
         float num = Random.Range(10000, 99999);
         RoomOptions options = new()
         {
             IsVisible = true,
             IsOpen = true,
-            MaxPlayers = 2,
+            MaxPlayers = 5,
         };
 
         PhotonNetwork.CreateRoom($"Lobby#{num}", options);
-        print($"room {num} has been created!");
+        if (debug) print($"room {num} has been created!");
     }
 
     public void JoinGame()
     {
         PhotonNetwork.JoinRoom(code.text, null);
-        print($"trying to join room {code.text}...");
+        if (debug) print($"trying to join room {code.text}...");
     }
 
     public bool IsValidateJoinCode()
@@ -75,18 +82,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        print($"couldn't join a room! {message}");
-        DisplayJoinError();
+        if (debug) print($"couldn't join a room! {message}");
+        error.Play("Display");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        print($"couldn't join a room! {message}");
-        DisplayJoinError();
-    }
-
-    public void DisplayJoinError()
-    {
-        Destroy(Instantiate(errorMessage, Vector3.zero, Quaternion.identity, FindFirstObjectByType<Canvas>().transform), 2f);
+        if (debug) print($"couldn't join a room! {message}");
+        if (debug) print("creating own Instead...");
+        CreateGame();
     }
 }

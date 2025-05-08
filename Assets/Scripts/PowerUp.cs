@@ -22,7 +22,7 @@ public class PowerUp : MonoBehaviour
     {
         if (!collision.transform.CompareTag("Player")) return;
 
-        Turret turret = collision.GetComponent<Turret>();
+        Turret turret = collision.GetComponentInChildren<Turret>();
         BasePlayer player = collision.GetComponent<BasePlayer>();
         TankMovement movement = collision.GetComponent<TankMovement>();
 

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,18 +15,23 @@ public class Turret : MonoBehaviour
     protected float timer;
 
     [Header("References")]
-    public GameObject bullet;
+    public int bullet;
+    public GameObject[] bullets;
     public GameObject muzzleFlash;
     public Transform muzzle;
     private InputAction attackAction;
+    private PhotonView view;
 
     private void Start()
     {
         attackAction = InputSystem.actions.FindAction("Attack");
+        view = GetComponent<PhotonView>();
     }
 
     private void Update()
     {
+        if (!view.IsMine) return;
+
         // Rotating
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y).normalized;
@@ -33,16 +39,17 @@ public class Turret : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime * 100f);
 
         // Shooting
-        if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo)) Shoot(bullet);
+        if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo)) view.RPC("Shoot", RpcTarget.All, bullet);
         timer = Mathf.Clamp(timer - Time.deltaTime, 0, float.MaxValue);
     }
 
-    public virtual void Shoot(GameObject bullet)
+    [PunRPC]
+    public virtual void Shoot(int bullet)
     {
         timer = secondsBetweenFire;
         if (!infiniteAmmo) ammo--;
 
-        Instantiate(bullet, muzzle.position, transform.rotation);
+        Instantiate(bullets[bullet], muzzle.position, transform.rotation);
         Destroy(Instantiate(muzzleFlash, muzzle.position, muzzle.rotation), 0.4f);
     }
 
