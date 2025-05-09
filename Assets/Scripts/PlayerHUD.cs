@@ -17,11 +17,14 @@ public class PlayerHUD : MonoBehaviour
 
     private void Start()
     {
-        if (PhotonNetwork.IsConnected) RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
+        if (PhotonNetwork.IsConnected)
+        {
+            RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
+            code.text = $"Code: {RoomInfo[1]}";
+        }
 
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
-        code.text = $"Code: {RoomInfo[1]}";
         menu.SetActive(false);
     }
 

@@ -1,5 +1,4 @@
 using Photon.Pun;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Indicator : MonoBehaviour
@@ -19,7 +18,9 @@ public class Indicator : MonoBehaviour
             }
         }
 
-        gameObject.SetActive(!target.IsUnityNull());
-        if (target != null) transform.position = new Vector2(target.position.x + offset.x, target.position.y + offset.y);
+        if (target == null) return;
+
+        gameObject.SetActive(target.gameObject.activeInHierarchy);
+        transform.position = new Vector2(target.position.x + offset.x, target.position.y + offset.y);
     }
 }
