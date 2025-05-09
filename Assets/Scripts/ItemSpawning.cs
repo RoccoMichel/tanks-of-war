@@ -6,7 +6,7 @@ public class ItemSpawning : MonoBehaviour
     public int attempts = 4;
     public Transform[] locations;
     public GameObject[] items;
-    public GameObject[] itemCheck;
+    private GameObject[] itemCheck;
     private float timer;
 
     private void Start()

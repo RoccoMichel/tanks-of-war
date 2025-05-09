@@ -18,6 +18,14 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsConnected) return;
 
+        FindAnyObjectByType<ChatManager>().SendMessage(PhotonNetwork.NickName, "has joined.");
         PhotonNetwork.Instantiate(PlayerPrefs.GetString("selectedTank"), spawnLocations[chosenLocation].position, spawnLocations[chosenLocation].rotation);
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>().CallPlayerListUpdate();
+    }
+
+    public void SetPosition(Transform player)
+    {
+        chosenLocation = Random.Range(0, spawnLocations.Length);
+        player.SetPositionAndRotation(spawnLocations[chosenLocation].position, spawnLocations[chosenLocation].rotation);
     }
 }

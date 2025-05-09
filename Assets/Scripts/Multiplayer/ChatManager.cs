@@ -20,6 +20,7 @@ public class ChatManager : MonoBehaviour
     [HideInInspector] public List<string> messages = new();
     public List<float> timers = new();
 
+    internal PhotonView view;
     internal InputAction enterChatAction;
     internal InputAction cancelAction;
 
@@ -27,6 +28,7 @@ public class ChatManager : MonoBehaviour
     {
         enterChatAction = InputSystem.actions.FindAction("EnterChat");
         cancelAction = InputSystem.actions.FindAction("Cancel");
+        view = GetComponent<PhotonView>();
 
         inChat = false;
         TogglChatText(false);
@@ -60,6 +62,11 @@ public class ChatManager : MonoBehaviour
         RefreshRecentChat();
 
         full.text = $"{full.text}[{username}] {message}\n\n";
+    }
+
+    public void SendMessage(string sender, string message)
+    {
+        view.RPC(nameof(ShowMessage), RpcTarget.All, sender, message);
     }
 
     public virtual void RefreshRecentChat()

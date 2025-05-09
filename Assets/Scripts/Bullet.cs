@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
     public float speed = 10;
     public float range = 8;
     [SerializeField] protected GameObject landEffect;
+    [HideInInspector] public BasePlayer origin;
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
     private Rigidbody2D rigidbody;
 #pragma warning restore CS0108 // Member hides inherited member; missing new keyword
@@ -36,7 +37,7 @@ public class Bullet : MonoBehaviour
             return;        
         }
 
-        if (collision.gameObject.CompareTag("Player")) entity.GetComponent<BasePlayer>().RequestDamage(damage);
+        if (collision.gameObject.CompareTag("Player")) entity.GetComponent<BasePlayer>().RequestDamage(damage, origin);
         else entity.TakeDamage(damage);
 
         Destroy(gameObject);

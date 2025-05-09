@@ -6,8 +6,10 @@ public class PowerUp : MonoBehaviour
     [Tooltip("Ignore if not relevant")]
     public float limitedTime = 5;
     public int specifier;
-    public Powers powerUp;
     private float timer;
+    private ChatManager chat;
+    public Powers powerUp;
+
 
     public enum Powers
     {
@@ -16,15 +18,15 @@ public class PowerUp : MonoBehaviour
         RefillSpecific,
         HealthFull,
         HealthSpecific,
-
-        // NOT IMPLEMENTED YET:
-
-        SpeedUp,
-        Invincible
+        Boost,
+        Shield,
+        Overdrive
     }
 
     private void Update()
     {
+        if (chat == null) chat = FindAnyObjectByType<ChatManager>();
+
         // If object has limited time delete after time
         if (!limited) return;
 
@@ -67,13 +69,24 @@ public class PowerUp : MonoBehaviour
 
                 break;
 
-            case Powers.SpeedUp:
-                movement.driveSpeed++;                      //////////
+            case Powers.Boost:
+                movement.Boost(specifier);
+                try { chat.SendMessage(player.identity, $"Has a {specifier} second Booster!"); }
+                catch { }                
 
                 break;
 
-            case Powers.Invincible:
-                player.isImmortal = true;                   //////////
+            case Powers.Shield:
+                player.Shield(specifier);
+                try { chat.SendMessage(player.identity, $"Has a {specifier} second Shield!"); }
+                catch { }                
+
+                break;
+
+            case Powers.Overdrive:
+                turret.Overdrive(specifier);
+                try { chat.SendMessage(player.identity, $"Has a {specifier} second Overdrive!"); }
+                catch { }                
 
                 break;
         }

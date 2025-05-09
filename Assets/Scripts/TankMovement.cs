@@ -7,9 +7,12 @@ public class TankMovement : MonoBehaviour
     public float rotationSpeed = 5;
     public float driveSpeed = 5;
     public float roadMultiplier = 1.5f;
+    public float boostPower = 2.5f;
     private new Rigidbody2D rigidbody;
     private InputAction moveAction;
-    private bool onRoad = false;
+    private bool onRoad;
+    private float boostTimer;
+    [SerializeField] private TrailRenderer trail;
     [HideInInspector] public PhotonView view;
 
     void Start()
@@ -21,6 +24,9 @@ public class TankMovement : MonoBehaviour
 
     void Update()
     {
+        boostTimer = Mathf.Clamp(boostTimer -= Time.deltaTime, 0, int.MaxValue);
+        if (boostTimer == 0) trail.enabled = false;
+
         if (!view.IsMine) return;
 
         if (moveAction.inProgress)
@@ -40,9 +46,16 @@ public class TankMovement : MonoBehaviour
             {
                 float newSpeed = moveValue.y * Time.deltaTime * driveSpeed;
                 newSpeed *= onRoad ? roadMultiplier : 1; // drive faster when on the road
+                newSpeed *= boostTimer > 0 ? boostPower : 1; // apply possible boost
                 rigidbody.AddForce(transform.up * newSpeed, ForceMode2D.Impulse);
             }
         }
+    }
+
+    public void Boost(float timeSeconds)
+    {
+        boostTimer += timeSeconds;
+        trail.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

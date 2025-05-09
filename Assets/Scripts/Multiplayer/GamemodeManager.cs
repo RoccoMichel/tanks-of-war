@@ -1,12 +1,17 @@
 using TMPro;
+using Photon.Pun;
 using UnityEngine;
+using System.Collections.Generic;
+using Photon.Realtime;
 
 public class GamemodeManager : MonoBehaviour
 {
     public Gamemodes gamemode;
     public TMP_Text gamemodeInfo;
+    public List<BasePlayer> playerList = new();
+    private PhotonView view;
+    private const float DEATHMATCHLENGTH = 5 * 60;
     private float timer;
-    private const float DEATHMATCHLENGTH = 5*60;
 
     public enum Gamemodes
     {
@@ -17,18 +22,48 @@ public class GamemodeManager : MonoBehaviour
 
     private void Start()
     {
+        view = GetComponent<PhotonView>();
         timer = DEATHMATCHLENGTH;
     }
 
     void Deathmatch()
     {
-        timer -= Time.deltaTime;
+        timer = Mathf.Clamp(timer -= Time.deltaTime, 0, int.MaxValue);
         gamemodeInfo.text = $"[ {TimerLogic(timer)} ]";
+
+        if (timer == 0)
+        {
+            // show winner'
+
+            foreach (BasePlayer player in playerList)
+            {
+                player.Respawn();
+                player.score = 0;
+            }
+
+            CallPlayerListUpdate();
+            timer = DEATHMATCHLENGTH;
+        }
     }
 
     void LastStanding()
     {
-        gamemodeInfo.text = "x player(s) left!";
+        int alive = 0;
+        foreach (BasePlayer player in playerList) if (player.health > 0) alive++;
+        gamemodeInfo.text = $"{alive} players left!";
+
+        if (alive < 2)
+        {
+            // show winner
+
+            foreach (BasePlayer player in playerList)
+            {
+                if (player.health > 0) player.score++;
+                player.Respawn();
+            }
+
+            CallPlayerListUpdate();
+        }
     }
 
     void Explore()
@@ -49,7 +84,31 @@ public class GamemodeManager : MonoBehaviour
             case Gamemodes.Explore:
                 Explore(); break;
         }
+
+        if (playerList.Count > 0 && playerList != null)
+            playerList.Sort((a, b) => b.score.CompareTo(a.score));
     }
+
+    public void CallPlayerListUpdate()
+    {
+        view.RPC(nameof(PlayerListUpdate), RpcTarget.All);
+    }
+
+    [PunRPC]
+    void PlayerListUpdate()
+    {
+        playerList.Clear();
+
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            playerList.Add(player.GetComponent<BasePlayer>());
+    }
+
+    public void Kill(BasePlayer killed, BasePlayer killer)
+    {
+        killed.deaths++;
+        if (gamemode == Gamemodes.Deathmatch) killer.score++;
+    }
+
     public string TimerLogic(float time)
     {
         int minutes = Mathf.FloorToInt(time / 60);

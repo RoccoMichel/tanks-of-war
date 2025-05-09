@@ -10,8 +10,6 @@ public class Entity : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
-        // Play Effects & Sounds (load from resources)
-
         if (isImmortal) return;
 
         health -= damage;

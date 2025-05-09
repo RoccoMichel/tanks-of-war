@@ -13,14 +13,23 @@ public class Turret : MonoBehaviour
     public float turnSpeed = 3;
     public float secondsBetweenFire = 0.5f;
     protected float timer;
+    private float overdriveTimer;
 
     [Header("References")]
     public int bullet;
     public GameObject[] bullets;
     public GameObject muzzleFlash;
+    public GameObject overdriveEffect;
     public Transform muzzle;
     private InputAction attackAction;
     private PhotonView view;
+
+    private void OnEnable()
+    {
+        timer = 0;
+        overdriveTimer = 0;
+        ammo = Mathf.CeilToInt(maxAmmo / 2);
+    }
 
     private void Start()
     {
@@ -30,6 +39,10 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
+        timer = Mathf.Clamp(timer - Time.deltaTime, 0, int.MaxValue);
+        overdriveTimer = Mathf.Clamp(overdriveTimer - Time.deltaTime, 0, int.MaxValue);
+        overdriveEffect.SetActive(overdriveTimer > 0);
+
         if (!view.IsMine) return;
 
         // Rotating
@@ -44,17 +57,23 @@ public class Turret : MonoBehaviour
             if (PhotonNetwork.IsConnected) view.RPC("Shoot", RpcTarget.All, bullet);
             else Shoot(bullet);
         }
-        timer = Mathf.Clamp(timer - Time.deltaTime, 0, float.MaxValue);
     }
 
     [PunRPC]
     public virtual void Shoot(int bullet)
     {
-        timer = secondsBetweenFire;
-        if (!infiniteAmmo) ammo--;
+        timer = overdriveTimer > 0 ? 0.1f : secondsBetweenFire;
+        if (infiniteAmmo || overdriveTimer > 0) overdriveTimer += 0.1f;
+        else ammo--;
 
-        Instantiate(bullets[bullet], muzzle.position, transform.rotation);
+        Instantiate(bullets[bullet], muzzle.position, transform.rotation).GetComponent<Bullet>().origin = GetComponentInParent<BasePlayer>();
         Destroy(Instantiate(muzzleFlash, muzzle.position, muzzle.rotation), 0.4f);
+    }
+
+    public void Overdrive(float timeSeconds)
+    {
+        overdriveTimer += timeSeconds;
+        timer = 0;
     }
 
     /// <summary>

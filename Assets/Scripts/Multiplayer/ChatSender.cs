@@ -14,7 +14,7 @@ public class ChatSender : MonoBehaviour
 
         if (chatManager.enterChatAction.WasPressedThisFrame())
         {
-            chatManager.GetComponent<PhotonView>().RPC(nameof(chatManager.ShowMessage), RpcTarget.All, PhotonNetwork.NickName, message.text);
+            chatManager.SendMessage(PhotonNetwork.NickName, message.text);
             message.text = string.Empty;
         }
     }

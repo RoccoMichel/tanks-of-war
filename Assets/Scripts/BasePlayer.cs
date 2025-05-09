@@ -5,15 +5,21 @@ public class BasePlayer : Entity
 {
     [Header("Player Settings")]
     public int score;
+    public int deaths;
     [SerializeField] ParticleSystem damageEffect;
+    [SerializeField] GameObject shield;
+    private GamemodeManager gamemode;
     private PhotonView view;
-
-    
+    private float shieldTimer;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
-        SetHealthBasedOnRoom();
+        gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>();
+        if (PhotonNetwork.IsConnected && view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.All, PhotonNetwork.NickName);
+        else view.RPC(nameof(UpdateIdentity), RpcTarget.Others);
+
+            SetHealthBasedOnRoom();
     }
 
     private void Update()
@@ -21,19 +27,36 @@ public class BasePlayer : Entity
         var effect = damageEffect.emission;
         float rateOverTime = Mathf.Lerp(40, 0, Mathf.InverseLerp(0, maxHealth / 3, health));
         effect.rateOverTime = Mathf.Floor(Mathf.Pow(rateOverTime, 1.2f));
+
+        shieldTimer = Mathf.Clamp(shieldTimer -= Time.deltaTime, 0, int.MaxValue);
+        isImmortal = shieldTimer > 0;
+        shield.SetActive(isImmortal);
     }
     
-    public virtual void RequestDamage(float amount)
+    public void Shield(float timeSeconds)
+    {
+        shieldTimer += timeSeconds;
+    }
+
+    public virtual void RequestDamage(float amount, BasePlayer source)
     {
         if (!view.IsMine) return;
 
-        view.RPC(nameof(TakeDamage), RpcTarget.All, amount);
-    }
+        view.RPC(nameof(TakeDamage), RpcTarget.All, amount, source.view.ViewID);
+    }   
 
     [PunRPC]
-    public override void TakeDamage(float damage)
+    public void TakeDamage(float damage, int sourceViewID)
     {
-        base.TakeDamage(damage);
+        if (isImmortal) return;
+
+        health -= damage;
+
+        if (health <= 0)
+        {
+            gamemode.Kill(this, PhotonView.Find(sourceViewID).GetComponent<BasePlayer>());
+            Die();
+        }
     }
 
     public virtual bool TryHeal(int amount)
@@ -46,8 +69,19 @@ public class BasePlayer : Entity
 
     public override void Die()
     {
-        Debug.Log("Player Died");
+        shieldTimer = 0;        
+
+        if (gamemode.gamemode == GamemodeManager.Gamemodes.Deathmatch) Invoke(nameof(Respawn), 5);
+        if (gamemode.gamemode == GamemodeManager.Gamemodes.Explore) Invoke(nameof(Respawn), 0.5f);
+
         gameObject.SetActive(false);
+    }
+
+    public virtual void Respawn()
+    {
+        gameObject.SetActive(true);
+        gamemode.GetComponent<PlayerSpawner>().SetPosition(transform);
+        health = maxHealth;
     }
 
     public void AddScore(int amount)
@@ -71,5 +105,17 @@ public class BasePlayer : Entity
     protected void ReceiveHealth(float newHealth)
     {
         health = newHealth;
+    }
+
+    [PunRPC]
+    protected void SetIdentity(string newIdentity)
+    {
+        identity = newIdentity;
+    }    
+    
+    [PunRPC]
+    protected void UpdateIdentity()
+    {
+        if (view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.Others, PhotonNetwork.NickName);
     }
 }

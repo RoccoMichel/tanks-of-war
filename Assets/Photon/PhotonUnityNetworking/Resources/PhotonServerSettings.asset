@@ -46,6 +46,10 @@ MonoBehaviour:
   - TakeDamage
   - ReceiveHealth
   - RequestHealth
+  - RefreshPlayerList
+  - PlayerListUpdate
+  - SetIdentity
+  - UpdateIdentity
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
