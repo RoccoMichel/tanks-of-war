@@ -36,7 +36,9 @@ public class Bullet : MonoBehaviour
             return;        
         }
 
-        entity.TakeDamage(damage);
+        if (collision.gameObject.CompareTag("Player")) entity.GetComponent<BasePlayer>().RequestDamage(damage);
+        else entity.TakeDamage(damage);
+
         Destroy(gameObject);
     }
 

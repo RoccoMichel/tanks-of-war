@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2948736170927094632, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: identity
+      value: Green Tank
+      objectReference: {fileID: 0}
     - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: driveSpeed
       value: 6

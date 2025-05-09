@@ -3,8 +3,6 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Events;
-using Unity.VisualScripting;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -19,9 +17,10 @@ public class PlayerHUD : MonoBehaviour
 
     private void Start()
     {
+        if (PhotonNetwork.IsConnected) RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
+
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
-        RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
         code.text = $"Code: {RoomInfo[1]}";
         menu.SetActive(false);
     }

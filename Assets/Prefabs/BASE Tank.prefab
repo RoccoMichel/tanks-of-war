@@ -141,10 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5419027742b2fd14188ce8ad478c74ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identity: Blue Tank
+  identity: Daddy Tank
   health: 100
   maxHealth: 100
   isImmortal: 0
+  score: 0
   damageEffect: {fileID: 5575452833171198686}
 --- !u!114 &3699829095686499015
 MonoBehaviour:
@@ -5332,7 +5333,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1

@@ -119,10 +119,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6172060395971372767}
+  - component: {fileID: 8132766232058341588}
   - component: {fileID: 8431041150923308071}
   - component: {fileID: 4518377830819696165}
   - component: {fileID: 7089965021407924016}
-  - component: {fileID: 8132766232058341588}
   m_Layer: 0
   m_Name: Anti-Tank Mine
   m_TagString: Untagged
@@ -146,6 +146,20 @@ Transform:
   - {fileID: 9107635177461719392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8132766232058341588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6251339080183042415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b2140a91029f6488be8fbde0ad5717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 40
+  explosionEffect: {fileID: 4179821375425551070, guid: 8772c5a00f17e0d41ae0ebd02fc8f996, type: 3}
 --- !u!212 &8431041150923308071
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -264,17 +278,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8132766232058341588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6251339080183042415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67b2140a91029f6488be8fbde0ad5717, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 30
-  explosionEffect: {fileID: 4179821375425551070, guid: 8772c5a00f17e0d41ae0ebd02fc8f996, type: 3}

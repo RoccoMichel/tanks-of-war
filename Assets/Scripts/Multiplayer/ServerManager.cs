@@ -18,7 +18,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
         try { lobbyManager = GetComponent<LobbyManager>(); } 
         catch { Debug.LogWarning("missing lobbyManager Reference"); }
 
-        if (gamemodeSelector != null) gamemodeSelector.value = PlayerPrefs.GetInt("Prefered Gamemode", 2);
+        if (gamemodeSelector != null) gamemodeSelector.value = PlayerPrefs.GetInt("Preferred Gamemode", 2);
+        nameField.text = PlayerPrefs.GetString("Name");
 
         PhotonNetwork.ConnectUsingSettings();
         if (debug) print("Connecting...");
@@ -48,12 +49,13 @@ public class ServerManager : MonoBehaviourPunCallbacks
         if (string.IsNullOrWhiteSpace(nameField.text)) return;
 
         validName = true;
+        PlayerPrefs.SetString("Name", nameField.text);
         PhotonNetwork.NickName = nameField.text;
         if (debug) print($"Changed Name to: {nameField.text}");
     }
 
-    public void ChangedPreferedGameMode()
+    public void ChangedPreferredGamemode()
     {
-        if (gamemodeSelector != null) PlayerPrefs.SetInt("Prefered Gamemode", gamemodeSelector.value);
+        if (gamemodeSelector != null) PlayerPrefs.SetInt("Preferred Gamemode", gamemodeSelector.value);
     }
 }

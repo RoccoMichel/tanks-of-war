@@ -7,6 +7,7 @@ public class CameraLogic : MonoBehaviour
     public float moveSpeed = 5f;
     public Vector2 minBounds;
     public Vector2 maxBounds;
+    public bool clamp = true;
     private float camHalfHeight;
     private float camHalfWidth;
 
@@ -41,6 +42,7 @@ public class CameraLogic : MonoBehaviour
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime * zoomSpeed);
 
         // Clamping
+        if (!clamp) return;
         camHalfHeight = cam.orthographicSize;
         camHalfWidth = cam.orthographicSize * cam.aspect;
 

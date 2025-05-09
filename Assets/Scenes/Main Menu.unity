@@ -2101,7 +2101,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1137374693}
         m_TargetAssemblyTypeName: ServerManager, Assembly-CSharp
-        m_MethodName: ChangedPreferedGameMode
+        m_MethodName: ChangedPreferredGamemode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
