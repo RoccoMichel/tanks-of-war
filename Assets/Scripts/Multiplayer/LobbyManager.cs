@@ -2,6 +2,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -92,5 +93,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (debug) print($"couldn't join a room! {message}");
         if (debug) print("creating own Instead...");
         CreateGame();
+    }
+
+    // for tutorial button
+    public void LoadSceneByName(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }

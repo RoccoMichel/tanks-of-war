@@ -26017,11 +26017,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5
+      value: 2.6
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.02
+      value: -0.52
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26029,19 +26029,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071079
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.70710576
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -26053,7 +26053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: ammo

@@ -54,7 +54,7 @@ public class Turret : MonoBehaviour
         // Shooting
         if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo))
         {
-            if (PhotonNetwork.IsConnected) view.RPC("Shoot", RpcTarget.All, bullet);
+            if (PhotonNetwork.InRoom) view.RPC("Shoot", RpcTarget.All, bullet);
             else Shoot(bullet);
         }
     }

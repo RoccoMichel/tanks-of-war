@@ -24,7 +24,7 @@ public class PlayerHUD : MonoBehaviour
         if (leaderboard != null) leaderboard.SetActive(false);
         if (menu != null) menu.SetActive(false);
 
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.InRoom)
         {
             RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
             code.text = $"Code: {RoomInfo[1]}";
