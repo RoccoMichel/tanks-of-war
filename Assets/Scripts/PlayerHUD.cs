@@ -10,28 +10,34 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private TMP_Text code;
     [SerializeField] private TMP_Text health;
     [SerializeField] private TMP_Text ammo;
-    [SerializeField] private TMP_Text score;
     [SerializeField] private GamemodeManager gamemode;
     [SerializeField] private GameObject leaderboard;
     [SerializeField] private GameObject glanceboard;
     private GameObject player;
+    private BasePlayer playerScript;
     private InputAction quickLookAction;
     private InputAction menuAction;
     internal string[] RoomInfo;
 
     private void Start()
     {
+        if (leaderboard != null) leaderboard.SetActive(false);
+        if (menu != null) menu.SetActive(false);
+
         if (PhotonNetwork.IsConnected)
         {
             RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
             code.text = $"Code: {RoomInfo[1]}";
         }
 
-        if (gamemode == null) gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>();
+        if (gamemode == null)
+        {
+            try { gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>(); }
+            catch { Debug.LogWarning("No GameManager found in Scene!"); }
+        }
+
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
-        leaderboard.SetActive(false);
-        menu.SetActive(false);
     }
 
     private void Update()
@@ -44,15 +50,15 @@ public class PlayerHUD : MonoBehaviour
                 if (view != null && view.IsMine)
                 {
                     this.player = player;
+                    playerScript = player.GetComponent<BasePlayer>();
                     break;
                 }
             }
         }
         else
         {
-            health.text = "HEALTH: " + player.GetComponent<BasePlayer>().health.ToString();
-            ammo.text = "AMMO: " + player.GetComponentInChildren<Turret>().ammo.ToString();
-            score.text = "POINTS: " + player.GetComponent<BasePlayer>().score.ToString();
+            health.text = "HP: " + playerScript.health.ToString();
+            ammo.text = player.GetComponentInChildren<Turret>().ammo.ToString() + " Round(s) Left";
         }
 
         if (quickLookAction.WasPressedThisFrame())
@@ -61,7 +67,7 @@ public class PlayerHUD : MonoBehaviour
             glanceboard.SetActive(!glanceboard.activeInHierarchy);
         }
 
-        if (leaderboard.activeInHierarchy)
+        if (leaderboard != null && leaderboard.activeInHierarchy)
         {
             TMP_Text textMesh = leaderboard.GetComponentInChildren<TMP_Text>();
             textMesh.text = "[LEADERBOARD]\n";
@@ -70,11 +76,21 @@ public class PlayerHUD : MonoBehaviour
                 textMesh.text += $"{player.identity}\t| {player.score} points ({player.deaths})\n";
 
         }
-        if (glanceboard.activeInHierarchy)
+
+        if (glanceboard != null && glanceboard.activeInHierarchy)
         {
             string leaderInfo;
+            int localRank = gamemode.GetPlayerRank(playerScript);
 
-            try { leaderInfo = $"{gamemode.playerList[0].identity}\t| {gamemode.playerList[0].score} points"; }
+            try 
+            {
+                if (localRank == 0) leaderInfo = $"YOU\t| {gamemode.playerList[localRank].score} points";
+                else
+                {
+                    leaderInfo = $"{gamemode.playerList[0].identity}\t| {gamemode.playerList[0].score} points";
+                    leaderInfo += $"\nYOU\t| {gamemode.playerList[localRank].score} points";
+                }
+            }
             catch { leaderInfo = "[Leaderinfo]"; }
 
             glanceboard.GetComponent<TMP_Text>().text = leaderInfo;
@@ -85,13 +101,17 @@ public class PlayerHUD : MonoBehaviour
 
     public void Exit()
     {
-        FindAnyObjectByType<ChatManager>().SendMessage(PhotonNetwork.NickName, "has left.");
+        if (PhotonNetwork.IsConnected)
+        {
+            player = null;
+            PhotonNetwork.Disconnect();
+            FindAnyObjectByType<ChatManager>().SendMessage(PhotonNetwork.NickName, "has left.");
+        }
         Invoke(nameof(Disconnect), 0.5f);
     }
 
     void Disconnect()
-    {
-        PhotonNetwork.Disconnect();
+    {        
         SceneManager.LoadScene(0);
     }
 }

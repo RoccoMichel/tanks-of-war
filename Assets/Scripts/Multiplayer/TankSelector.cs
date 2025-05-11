@@ -3,15 +3,13 @@ using UnityEngine.UI;
 
 public class TankSelector : MonoBehaviour
 {
-    public Sprite[] tankPreviews;
+    public GameObject[] tankPreviews;
     public string[] tankNames;
-    private Image display;
     static int selected;
 
     private void Start()
     {
-        display = GetComponent<Image>();
-        display.sprite = tankPreviews[selected];
+        ChangeTankPreview();
         PlayerPrefs.SetString("selectedTank", tankNames[selected]);
     }
 
@@ -25,7 +23,13 @@ public class TankSelector : MonoBehaviour
         selected++;
         if (selected >= tankNames.Length) selected = 0;
 
-        display.sprite = tankPreviews[selected];
+        ChangeTankPreview();
         PlayerPrefs.SetString("selectedTank", tankNames[selected]);
+    }
+
+    void ChangeTankPreview()
+    {
+        foreach(GameObject preview in tankPreviews) preview.SetActive(false);
+        tankPreviews[selected].SetActive(true);
     }
 }

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ServerManager : MonoBehaviourPunCallbacks
 {
     public bool debug;
-    [SerializeField] Button serverButton;
+    [SerializeField] Button joinButton;
+    [SerializeField] Button createButton;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_Dropdown gamemodeSelector;
     public bool validName;
@@ -14,7 +15,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if (serverButton != null) serverButton.interactable = false;
+        if (joinButton != null) joinButton.interactable = false;
+        if (createButton != null) createButton.interactable = false;
         try { lobbyManager = GetComponent<LobbyManager>(); } 
         catch { Debug.LogWarning("missing lobbyManager Reference"); }
 
@@ -22,6 +24,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
         nameField.text = PlayerPrefs.GetString("Name");
 
         PhotonNetwork.ConnectUsingSettings();
+
         if (debug) print("Connecting...");
     }
 
@@ -33,9 +36,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (lobbyManager.code.text.Length <= 1) serverButton.interactable = PhotonNetwork.IsConnected;
-        else if (lobbyManager.IsValidateJoinCode()) serverButton.interactable = true;
-        else serverButton.interactable = false;
+        if (lobbyManager.code.text.Length <= 1) joinButton.interactable = PhotonNetwork.IsConnectedAndReady;
+        else if (lobbyManager.IsValidateJoinCode()) joinButton.interactable = true;
+        else joinButton.interactable = false;
+
+        createButton.interactable = PhotonNetwork.IsConnectedAndReady;
     }
 
     public void ExitGame()

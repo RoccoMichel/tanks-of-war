@@ -12,7 +12,7 @@ public class Entity : MonoBehaviour
     {
         if (isImmortal) return;
 
-        health -= damage;
+        Mathf.Clamp(0, maxHealth, health -= damage);
 
         if (health <= 0) Die();
     }

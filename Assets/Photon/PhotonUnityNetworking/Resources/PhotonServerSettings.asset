@@ -17,7 +17,7 @@ MonoBehaviour:
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 
+    AppVersion: 1.0
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -50,6 +50,11 @@ MonoBehaviour:
   - PlayerListUpdate
   - SetIdentity
   - UpdateIdentity
+  - ReceiveGamemode
+  - ReceiveInfo
+  - RequestGamemodeFromMaster
+  - RequestInfo
+  - AddDeath
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1

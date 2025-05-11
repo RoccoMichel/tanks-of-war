@@ -10,8 +10,6 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     {
         chosenLocation = Random.Range(0, spawnLocations.Length);
         Invoke(nameof(SpawnPlayer), 0.5f);
-
-        if (PhotonNetwork.IsMasterClient) FindAnyObjectByType<GamemodeManager>().gamemode = (GamemodeManager.Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
     }
 
     public void SpawnPlayer()

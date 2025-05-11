@@ -386,6 +386,7 @@ MonoBehaviour:
   maxHealth: 100
   isImmortal: 0
   score: 0
+  deaths: 0
   damageEffect: {fileID: 5575452833171198686}
   shield: {fileID: 304534507477419534}
 --- !u!114 &3699829095686499015
@@ -614,7 +615,7 @@ MonoBehaviour:
   infiniteAmmo: 0
   ammo: 100
   maxAmmo: 100
-  turnSpeed: 3
+  rotationSpeed: 3
   secondsBetweenFire: 0.5
   bullet: 0
   bullets:
@@ -622,6 +623,7 @@ MonoBehaviour:
   - {fileID: 5345833102849335655, guid: b59c64328b3b79d40aa51ac68ded523f, type: 3}
   - {fileID: 4262791385713309621, guid: c5485507774f80545890e801a599380f, type: 3}
   - {fileID: 7264899862372168549, guid: 6625c6ec62f8c354a9829cbe88773b07, type: 3}
+  - {fileID: 156932254632024758, guid: b3a1b28b135486341b90b1c85ca8dc27, type: 3}
   muzzleFlash: {fileID: 8543996004695534323, guid: 6c8cca37ea08fce4dbeb73194ac091b5, type: 3}
   overdriveEffect: {fileID: 5973942052154850771}
   muzzle: {fileID: 8687504965339294013}

@@ -66,6 +66,7 @@ public class ChatManager : MonoBehaviour
 
     public void SendMessage(string sender, string message)
     {
+        if (!PhotonNetwork.InRoom) return;
         view.RPC(nameof(ShowMessage), RpcTarget.All, sender, message);
     }
 

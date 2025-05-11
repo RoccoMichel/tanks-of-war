@@ -15,11 +15,14 @@ public class BasePlayer : Entity
     private void Start()
     {
         view = GetComponent<PhotonView>();
-        gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>();
+
+        try { gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>(); }
+        catch { Debug.LogWarning("No GameManager found in Scene!"); }
+
         if (PhotonNetwork.IsConnected && view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.All, PhotonNetwork.NickName);
         else view.RPC(nameof(UpdateIdentity), RpcTarget.Others);
 
-            SetHealthBasedOnRoom();
+        SetHealthBasedOnRoom();
     }
 
     private void Update()
@@ -50,11 +53,11 @@ public class BasePlayer : Entity
     {
         if (isImmortal) return;
 
-        health -= damage;
+        Mathf.Clamp(0, maxHealth, health -= damage);
 
         if (health <= 0)
         {
-            gamemode.Kill(this, PhotonView.Find(sourceViewID).GetComponent<BasePlayer>());
+            gamemode.Kill(PhotonView.Find(sourceViewID).GetComponent<BasePlayer>());
             Die();
         }
     }
@@ -69,12 +72,19 @@ public class BasePlayer : Entity
 
     public override void Die()
     {
-        shieldTimer = 0;        
+        shieldTimer = 0;
+        view.RPC(nameof(AddDeath), RpcTarget.All);
 
         if (gamemode.gamemode == GamemodeManager.Gamemodes.Deathmatch) Invoke(nameof(Respawn), 5);
         if (gamemode.gamemode == GamemodeManager.Gamemodes.Explore) Invoke(nameof(Respawn), 0.5f);
 
         gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    private void AddDeath()
+    {
+        deaths++;
     }
 
     public virtual void Respawn()
@@ -92,17 +102,17 @@ public class BasePlayer : Entity
 
     public void SetHealthBasedOnRoom()
     {
-        view.RPC(nameof(RequestHealth), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber);
+        view.RPC(nameof(RequestInfo), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     [PunRPC]
-    protected void RequestHealth(int actorNumber)
+    protected void RequestInfo(int actorNumber)
     {
-        view.RPC(nameof(ReceiveHealth), PhotonNetwork.CurrentRoom.GetPlayer(actorNumber), health);
+        view.RPC(nameof(ReceiveInfo), PhotonNetwork.CurrentRoom.GetPlayer(actorNumber), health);
     }
 
     [PunRPC]
-    protected void ReceiveHealth(float newHealth)
+    protected void ReceiveInfo(float newHealth)
     {
         health = newHealth;
     }

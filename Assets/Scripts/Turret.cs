@@ -10,7 +10,7 @@ public class Turret : MonoBehaviour
     public int maxAmmo = 10;
 
     [Header("Shooting")]
-    public float turnSpeed = 3;
+    public float rotationSpeed = 3;
     public float secondsBetweenFire = 0.5f;
     protected float timer;
     private float overdriveTimer;
@@ -49,7 +49,7 @@ public class Turret : MonoBehaviour
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime * 100f);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime * 100f);
 
         // Shooting
         if (attackAction.WasPressedThisFrame() && timer == 0 && (ammo > 0 || infiniteAmmo))

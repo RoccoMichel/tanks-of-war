@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
     public float speed = 10;
     public float range = 8;
     [SerializeField] protected GameObject landEffect;
+    [SerializeField] protected GameObject hitEffect;
     [HideInInspector] public BasePlayer origin;
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
     private Rigidbody2D rigidbody;
@@ -29,7 +30,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // effect / sound
+        Destroy(Instantiate(hitEffect, transform.position, transform.rotation), 1);
 
         if (!collision.transform.TryGetComponent(out Entity entity))
         {

@@ -2,7 +2,6 @@ using TMPro;
 using Photon.Pun;
 using UnityEngine;
 using System.Collections.Generic;
-using Photon.Realtime;
 
 public class GamemodeManager : MonoBehaviour
 {
@@ -24,6 +23,11 @@ public class GamemodeManager : MonoBehaviour
     {
         view = GetComponent<PhotonView>();
         timer = DEATHMATCHLENGTH;
+
+        if (!PhotonNetwork.IsConnected) return;
+
+        if (PhotonNetwork.IsMasterClient) gamemode = (Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
+        else view.RPC(nameof(RequestGamemodeFromMaster), RpcTarget.MasterClient);
     }
 
     void Deathmatch()
@@ -33,7 +37,7 @@ public class GamemodeManager : MonoBehaviour
 
         if (timer == 0)
         {
-            // show winner'
+            // show winner
 
             foreach (BasePlayer player in playerList)
             {
@@ -94,8 +98,20 @@ public class GamemodeManager : MonoBehaviour
         view.RPC(nameof(PlayerListUpdate), RpcTarget.All);
     }
 
+    public int GetPlayerRank(BasePlayer player)
+    {
+        int rank;
+
+        for (rank = 0;  rank < playerList.Count; rank++)
+        {
+            if (player == playerList[rank]) break;
+        }
+
+        return rank;
+    }
+
     [PunRPC]
-    void PlayerListUpdate()
+    private void PlayerListUpdate()
     {
         playerList.Clear();
 
@@ -103,9 +119,21 @@ public class GamemodeManager : MonoBehaviour
             playerList.Add(player.GetComponent<BasePlayer>());
     }
 
-    public void Kill(BasePlayer killed, BasePlayer killer)
+    [PunRPC]
+    private void RequestGamemodeFromMaster(PhotonMessageInfo info)
     {
-        killed.deaths++;
+        view.RPC(nameof(ReceiveGamemode), info.Sender, (int)gamemode, timer);
+    }
+
+    [PunRPC]
+    private void ReceiveGamemode(int mode, float timer)
+    {
+        gamemode = (Gamemodes)mode;
+        this.timer = timer;
+    }
+
+    public void Kill( BasePlayer killer)
+    {
         if (gamemode == Gamemodes.Deathmatch) killer.score++;
     }
 

@@ -53,6 +53,8 @@ MonoBehaviour:
   speed: 10
   range: 5
   landEffect: {fileID: 6680626202180116905, guid: ac48ac36cf605f644af956adc02bd7c4, type: 3}
+  hitEffect: {fileID: 7059300560020251826, guid: a0f85dbd79f38954bb20790195d76cfe, type: 3}
+  origin: {fileID: 0}
 --- !u!212 &7379820803843561072
 SpriteRenderer:
   m_ObjectHideFlags: 0
