@@ -28699,7 +28699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequencySeconds: 6
+  frequencySeconds: 3
   attempts: 2
   locations:
   - {fileID: 914238486}
@@ -28759,7 +28759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequencySeconds: 15
+  frequencySeconds: 10
   attempts: 3
   locations:
   - {fileID: 468729950}
@@ -28787,7 +28787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequencySeconds: 20
+  frequencySeconds: 30
   attempts: 2
   locations:
   - {fileID: 1170151748}
@@ -28810,7 +28810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequencySeconds: 35
+  frequencySeconds: 25
   attempts: 1
   locations:
   - {fileID: 2109327533}

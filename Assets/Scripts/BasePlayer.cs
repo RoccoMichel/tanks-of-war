@@ -22,7 +22,7 @@ public class BasePlayer : Entity
         if (PhotonNetwork.IsConnected && view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.All, PhotonNetwork.NickName);
         else view.RPC(nameof(UpdateIdentity), RpcTarget.Others);
 
-        SetHealthBasedOnRoom();
+        view.RPC(nameof(RequestInfo), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     private void Update()
@@ -81,6 +81,12 @@ public class BasePlayer : Entity
         gameObject.SetActive(false);
     }
 
+    public void DisablePlayer()
+    {
+        shieldTimer = 0;
+        gameObject.SetActive(false);
+    }
+
     [PunRPC]
     private void AddDeath()
     {
@@ -91,7 +97,12 @@ public class BasePlayer : Entity
     {
         gameObject.SetActive(true);
         gamemode.GetComponent<PlayerSpawner>().SetPosition(transform);
+        gamemode.GetComponentInChildren<Turret>().RefillFull();
         health = maxHealth;
+    }    
+    public virtual void Respawn(float waitTime)
+    {
+        Invoke(nameof(Respawn), waitTime);
     }
 
     public void AddScore(int amount)
@@ -100,21 +111,37 @@ public class BasePlayer : Entity
     }
 
 
-    public void SetHealthBasedOnRoom()
-    {
-        view.RPC(nameof(RequestInfo), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber);
-    }
-
     [PunRPC]
     protected void RequestInfo(int actorNumber)
     {
-        view.RPC(nameof(ReceiveInfo), PhotonNetwork.CurrentRoom.GetPlayer(actorNumber), health);
+        view.RPC(nameof(ReceiveInfo), PhotonNetwork.CurrentRoom.GetPlayer(actorNumber), health, score, deaths, GetComponentInChildren<Turret>().bullet);
     }
 
     [PunRPC]
     protected void ReceiveInfo(float newHealth)
     {
         health = newHealth;
+    }    
+    [PunRPC]
+    protected void ReceiveInfo(float newHealth, int newScore)
+    {
+        health = newHealth;
+        score = newScore;
+    }    
+    [PunRPC]
+    protected void ReceiveInfo(float newHealth, int newScore, int newDeaths)
+    {
+        health = newHealth;
+        score = newScore;
+        deaths = newDeaths;
+    }    
+    [PunRPC]
+    protected void ReceiveInfo(float newHealth, int newScore, int newDeaths, int currentBullet)
+    {
+        health = newHealth;
+        score = newScore;
+        deaths = newDeaths;
+        GetComponentInChildren<Turret>().bullet = currentBullet;
     }
 
     [PunRPC]

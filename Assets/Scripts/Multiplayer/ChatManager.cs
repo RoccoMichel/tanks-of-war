@@ -64,7 +64,7 @@ public class ChatManager : MonoBehaviour
         full.text = $"{full.text}[{username}] {message}\n\n";
     }
 
-    public void SendMessage(string sender, string message)
+    public void SendChatMessage(string sender, string message)
     {
         if (!PhotonNetwork.InRoom) return;
         view.RPC(nameof(ShowMessage), RpcTarget.All, sender, message);

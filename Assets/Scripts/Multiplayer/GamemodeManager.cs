@@ -27,7 +27,7 @@ public class GamemodeManager : MonoBehaviour
         if (!PhotonNetwork.IsConnected) return;
 
         if (PhotonNetwork.IsMasterClient) gamemode = (Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
-        else view.RPC(nameof(RequestGamemodeFromMaster), RpcTarget.MasterClient);
+        else view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     void Deathmatch()
@@ -37,13 +37,7 @@ public class GamemodeManager : MonoBehaviour
 
         if (timer == 0)
         {
-            // show winner
-
-            foreach (BasePlayer player in playerList)
-            {
-                player.Respawn();
-                player.score = 0;
-            }
+            RoundOver(true, 10, playerList[0]);
 
             CallPlayerListUpdate();
             timer = DEATHMATCHLENGTH;
@@ -58,12 +52,15 @@ public class GamemodeManager : MonoBehaviour
 
         if (alive < 2)
         {
-            // show winner
-
             foreach (BasePlayer player in playerList)
             {
-                if (player.health > 0) player.score++;
-                player.Respawn();
+                if (player.health > 0)
+                {
+                    player.score++;
+                    RoundOver(false, 10, player);
+
+                    break;
+                }
             }
 
             CallPlayerListUpdate();
@@ -110,6 +107,30 @@ public class GamemodeManager : MonoBehaviour
         return rank;
     }
 
+
+    private void RoundOver(bool resetStats, float nextRoundInSeconds, BasePlayer winner)
+    {
+        if (resetStats) Invoke(nameof(ResetStats), nextRoundInSeconds);
+        foreach (BasePlayer player in playerList)
+        {
+            player.DisablePlayer();
+            player.Respawn(nextRoundInSeconds);
+        }
+
+        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"{winner.identity} has won {gamemode}");
+        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", "Congratulations!!!");
+        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"Starting next round in {nextRoundInSeconds}");
+    }
+
+    private void ResetStats()
+    {
+        foreach (BasePlayer player in playerList)
+        {
+            player.score = 0;
+            player.deaths = 0;
+        }
+    }
+
     [PunRPC]
     private void PlayerListUpdate()
     {
@@ -120,16 +141,16 @@ public class GamemodeManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void RequestGamemodeFromMaster(PhotonMessageInfo info)
+    private void RequestInfo(int actorNumber)
     {
-        view.RPC(nameof(ReceiveGamemode), info.Sender, (int)gamemode, timer);
+        view.RPC(nameof(ReceiveInfo), PhotonNetwork.CurrentRoom.GetPlayer(actorNumber), timer, (int)gamemode);
     }
 
     [PunRPC]
-    private void ReceiveGamemode(int mode, float timer)
+    private void ReceiveInfo(float newTime, int currentGamemode)
     {
-        gamemode = (Gamemodes)mode;
-        this.timer = timer;
+        timer = newTime;
+        gamemode = (Gamemodes)currentGamemode;
     }
 
     public void Kill( BasePlayer killer)

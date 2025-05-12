@@ -71,21 +71,21 @@ public class PowerUp : MonoBehaviour
 
             case Powers.Boost:
                 movement.Boost(specifier);
-                try { chat.SendMessage(player.identity, $"Has a {specifier} second Booster!"); }
+                try { chat.SendChatMessage(player.identity, $"Has a {specifier} second Booster!"); }
                 catch { }                
 
                 break;
 
             case Powers.Shield:
                 player.Shield(specifier);
-                try { chat.SendMessage(player.identity, $"Has a {specifier} second Shield!"); }
+                try { chat.SendChatMessage(player.identity, $"Has a {specifier} second Shield!"); }
                 catch { }                
 
                 break;
 
             case Powers.Overdrive:
                 turret.Overdrive(specifier);
-                try { chat.SendMessage(player.identity, $"Has a {specifier} second Overdrive!"); }
+                try { chat.SendChatMessage(player.identity, $"Has a {specifier} second Overdrive!"); }
                 catch { }                
 
                 break;

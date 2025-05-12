@@ -91,7 +91,7 @@ public class PlayerHUD : MonoBehaviour
                     leaderInfo += $"\nYOU\t| {gamemode.playerList[localRank].score} points";
                 }
             }
-            catch { leaderInfo = "[Leaderinfo]"; }
+            catch { leaderInfo = "[Leader info]"; }
 
             glanceboard.GetComponent<TMP_Text>().text = leaderInfo;
         }
@@ -105,7 +105,7 @@ public class PlayerHUD : MonoBehaviour
         {
             player = null;
             PhotonNetwork.Disconnect();
-            FindAnyObjectByType<ChatManager>().SendMessage(PhotonNetwork.NickName, "has left.");
+            FindAnyObjectByType<ChatManager>().SendChatMessage(PhotonNetwork.NickName, "has left.");
         }
         Invoke(nameof(Disconnect), 0.5f);
     }

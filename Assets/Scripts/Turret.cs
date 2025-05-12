@@ -28,7 +28,6 @@ public class Turret : MonoBehaviour
     {
         timer = 0;
         overdriveTimer = 0;
-        ammo = Mathf.CeilToInt(maxAmmo / 2);
     }
 
     private void Start()
