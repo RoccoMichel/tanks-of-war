@@ -1,28 +1,46 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class Crate : Destructable
+public class Crate : Destructible
 {
     [Header("Crate Attributes")]
     public Vector2 randomAmount = Vector2.one;
     public float spawnRadius = 0.5f;
     public bool oneType = true;
     public GameObject[] contents;
+    private PhotonView view;
+
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+    }
 
     public override void Die()
     {
-        int amount = Mathf.CeilToInt(Random.Range(Mathf.Abs(randomAmount.x), Mathf.Abs(randomAmount.y)));
-        GameObject content = oneType ? contents[Random.Range(0, contents.Length)] : null;
-
-        for (int i = 0; i < amount; i++)
+        if (PhotonNetwork.IsMasterClient && view != null)
         {
-            Vector2 position = transform.position + new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(-spawnRadius, spawnRadius), transform.position.z);
-            Vector3 rotaion = new Vector3(0, 0, Random.Range(0, 360));
+            int amount = Random.Range((int)randomAmount.x, (int)randomAmount.y + 1);
+            int content = Random.Range(0, contents.Length);
 
-            if (!oneType) content = contents[Random.Range(0, contents.Length)];
+            for (int i = 0; i < amount; i++)
+            {
+                Vector2 position = transform.position + new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(-spawnRadius, spawnRadius), transform.position.z);
+                float rotation = Random.Range(0, 360);
 
-            Instantiate(content, position, Quaternion.Euler(rotaion));
+                if (!oneType) content = Random.Range(0, contents.Length);
+
+                print(i);
+                view.RPC(nameof(SpawnContents), RpcTarget.All, content, position.x, position.y, rotation);
+            }
         }
 
-        base.Die();
+        PlayAllEffect();
+        Destroy(gameObject);
+    }
+
+    [PunRPC]
+    public void SpawnContents(int content, float PosX, float PosY, float RotY)
+    {
+        Instantiate(contents[content], new (PosX, PosY), Quaternion.Euler(new (0, RotY, 0)));
     }
 }

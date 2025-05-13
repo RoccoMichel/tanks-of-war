@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class Destructable : Entity
+public class Destructible : Entity
 {
-    [Header("Destructable Attributes")]
+    [Header("Destructible Attributes")]
     public bool dieOnTouch = true;
     public GameObject[] effects;
     public AudioClip[] sounds;
     private AudioSource audioSource;
-
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,7 +15,14 @@ public class Destructable : Entity
 
     public override void Die()
     {
-        // Instatiate effects and destroy when done
+        PlayAllEffect();
+
+        base.Die();
+    }
+
+    protected void PlayAllEffect()
+    {
+        // Instantiate effects and destroy when done
         foreach (GameObject effect in effects)
         {
             Destroy(Instantiate(effect, transform.position, transform.rotation), effect.GetComponent<ParticleSystem>().main.duration);
@@ -29,13 +34,11 @@ public class Destructable : Entity
             try { audioSource = GetComponent<AudioSource>(); }
             catch { audioSource = gameObject.AddComponent<AudioSource>(); }
         }
-        
+
         // Play sounds
         foreach (AudioClip clip in sounds)
         {
             audioSource.PlayOneShot(clip);
         }
-
-        base.Die();
     }
 }

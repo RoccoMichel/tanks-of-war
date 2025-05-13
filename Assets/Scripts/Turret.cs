@@ -34,6 +34,7 @@ public class Turret : MonoBehaviour
     {
         attackAction = InputSystem.actions.FindAction("Attack");
         view = GetComponent<PhotonView>();
+        ammo = maxAmmo / 2;
     }
 
     private void Update()
@@ -86,6 +87,14 @@ public class Turret : MonoBehaviour
     public virtual void RefillSpecific(int amount)
     {
         ammo = Mathf.Clamp(ammo + amount, 0, maxAmmo);
+    }
+
+    /// <summary>
+    /// Sets Turret ammo to half that of maxAmmo
+    /// </summary>
+    public virtual void RefillHalfAmmo()
+    {
+        ammo = maxAmmo / 2;
     }
 
     public bool CanReload()

@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 4157048186243151256}
   - component: {fileID: 6518583336401168340}
   m_Layer: 0
-  m_Name: tankBlue_barrel
+  m_Name: Barrel Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,6 +623,7 @@ MonoBehaviour:
   - {fileID: 5345833102849335655, guid: b59c64328b3b79d40aa51ac68ded523f, type: 3}
   - {fileID: 4262791385713309621, guid: c5485507774f80545890e801a599380f, type: 3}
   - {fileID: 7264899862372168549, guid: 6625c6ec62f8c354a9829cbe88773b07, type: 3}
+  - {fileID: 4485034535465547803, guid: ab2882a02cf4405488d2c9575ea65418, type: 3}
   - {fileID: 156932254632024758, guid: b3a1b28b135486341b90b1c85ca8dc27, type: 3}
   muzzleFlash: {fileID: 8543996004695534323, guid: 6c8cca37ea08fce4dbeb73194ac091b5, type: 3}
   overdriveEffect: {fileID: 5973942052154850771}

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5421903609304894649}
   - component: {fileID: 980808275096786670}
-  - component: {fileID: 3862465566937339011}
   - component: {fileID: 1284581497601164306}
+  - component: {fileID: 3862465566937339011}
   m_Layer: 0
   m_Name: Small Green Tree
   m_TagString: Untagged
@@ -89,6 +89,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1284581497601164306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8469835224310838500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0358a1f75d22e8b40984c5172f5e26ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity: Destructable Tree
+  health: 100
+  maxHealth: 100
+  isImmortal: 0
+  dieOnTouch: 1
+  effects:
+  - {fileID: 250283729310835128, guid: 9d23e2ec075cd9245863047a390d8b7a, type: 3}
+  sounds: []
 --- !u!58 &3862465566937339011
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -125,23 +145,3 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.07
---- !u!114 &1284581497601164306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8469835224310838500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0358a1f75d22e8b40984c5172f5e26ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  identity: Destructable Tree
-  health: 100
-  maxHealth: 100
-  isImmortal: 0
-  dieOnTouch: 1
-  effects:
-  - {fileID: 250283729310835128, guid: 9d23e2ec075cd9245863047a390d8b7a, type: 3}
-  sounds: []

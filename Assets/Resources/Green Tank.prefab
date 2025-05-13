@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: ammo
-      value: 8
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: bullet
@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: maxAmmo
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: turnSpeed

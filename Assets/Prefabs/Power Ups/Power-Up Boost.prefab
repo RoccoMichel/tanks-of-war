@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3677228397467240278, guid: 49a63dbf2f7cf8949aac4ec51a24a895, type: 3}
       propertyPath: m_Name
-      value: Boost Power-Up Variant
+      value: Power-Up Boost
       objectReference: {fileID: 0}
     - target: {fileID: 7077133171113029467, guid: 49a63dbf2f7cf8949aac4ec51a24a895, type: 3}
       propertyPath: m_Radius
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8541272626747187843, guid: 49a63dbf2f7cf8949aac4ec51a24a895, type: 3}
       propertyPath: specifier
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8967964990548129300, guid: 49a63dbf2f7cf8949aac4ec51a24a895, type: 3}
       propertyPath: m_Sprite
