@@ -29,7 +29,6 @@ public class Crate : Destructible
 
                 if (!oneType) content = Random.Range(0, contents.Length);
 
-                print(i);
                 view.RPC(nameof(SpawnContents), RpcTarget.All, content, position.x, position.y, rotation);
             }
         }
@@ -39,8 +38,8 @@ public class Crate : Destructible
     }
 
     [PunRPC]
-    public void SpawnContents(int content, float PosX, float PosY, float RotY)
+    public void SpawnContents(int content, float PosX, float PosY, float RotZ)
     {
-        Instantiate(contents[content], new (PosX, PosY), Quaternion.Euler(new (0, RotY, 0)));
+        Instantiate(contents[content], new (PosX, PosY), Quaternion.Euler(new (0, 0, RotZ)));
     }
 }

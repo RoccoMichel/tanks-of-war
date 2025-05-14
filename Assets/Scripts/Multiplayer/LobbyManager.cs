@@ -3,11 +3,13 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public bool debug;
     public TMP_Text code;
+    public Toggle visibilityToggle;
     [SerializeField] Animator error;
     public int codeLength;
 
@@ -23,15 +25,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (debug) print("trying to join room...");
     }
 
-    public void CreateGame()
+    public void CreateGame(bool visibility)
     {
         if (debug) print("creating room...");
 
-        float num = Random.Range(10000, 99999);
+        int num = Random.Range(10000, 99999);
         RoomOptions options = new()
         {
             IsVisible = true,
-            IsOpen = true,
+            IsOpen = visibility,
             MaxPlayers = 5,
         };
 
@@ -92,7 +94,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (debug) print($"couldn't join a room! {message}");
         if (debug) print("creating own Instead...");
-        CreateGame();
+        CreateGame(true);
+    }
+
+    public void CreateNewGame()
+    {
+        CreateGame(visibilityToggle.isOn);
     }
 
     // for tutorial button

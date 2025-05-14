@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ItemSpawning : MonoBehaviour
 {
+    public bool photonInstantiate;
     public float frequencySeconds = 5;
     public int attempts = 4;
     public Transform[] locations;
@@ -44,7 +45,8 @@ public class ItemSpawning : MonoBehaviour
 
         int type = Random.Range(0, items.Length);
 
-        view.RPC(nameof(InstantiateNewItem), RpcTarget.All, index, type, index);
+        if (photonInstantiate) itemCheck[index] = PhotonNetwork.Instantiate(items[type].name, locations[index].position, Quaternion.Euler(new(0, 0, Random.Range(0, 360))));
+        else view.RPC(nameof(InstantiateNewItem), RpcTarget.All, index, type, index);
     }
 
     [PunRPC]

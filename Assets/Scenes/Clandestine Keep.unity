@@ -482,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonInstantiate: 0
   frequencySeconds: 25
   attempts: 1
   locations:
@@ -1372,6 +1373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonInstantiate: 0
   frequencySeconds: 30
   attempts: 2
   locations:
@@ -1944,6 +1946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonInstantiate: 0
   frequencySeconds: 3
   attempts: 2
   locations:
@@ -7033,7 +7036,7 @@ Transform:
   m_GameObject: {fileID: 678279940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.37, y: -7.73, z: 0}
+  m_LocalPosition: {x: -11, y: -7.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10700,6 +10703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonInstantiate: 1
   frequencySeconds: 10
   attempts: 3
   locations:
@@ -30297,7 +30301,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332879654773713163, guid: 6c131f7f6fa4e9a4d8757076b71003f1, type: 3}
       propertyPath: orthographic size
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5119258109033387142, guid: 6c131f7f6fa4e9a4d8757076b71003f1, type: 3}
       propertyPath: maxZoom
@@ -30325,7 +30329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6227212511560589817, guid: 6c131f7f6fa4e9a4d8757076b71003f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.77
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6227212511560589817, guid: 6c131f7f6fa4e9a4d8757076b71003f1, type: 3}
       propertyPath: m_LocalPosition.y
