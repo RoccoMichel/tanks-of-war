@@ -27,7 +27,7 @@ public class PlayerHUD : MonoBehaviour
         if (PhotonNetwork.InRoom)
         {
             RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
-            code.text = $"Code: {RoomInfo[1]}\n{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}";
+            code.text = $"CODE:\n{RoomInfo[1]}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
         }
 
         if (gamemode == null)

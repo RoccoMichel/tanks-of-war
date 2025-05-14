@@ -46,6 +46,13 @@ public class GamemodeManager : MonoBehaviour
 
     void LastStanding()
     {
+        print(PhotonNetwork.CountOfPlayersInRooms);
+        if (PhotonNetwork.CountOfPlayersInRooms <= 1)
+        {
+            gamemodeInfo.text = "waiting for more players to join...";
+            return;
+        }
+
         int alive = 0;
         foreach (BasePlayer player in playerList) if (player.health > 0) alive++;
         gamemodeInfo.text = $"{alive} players left!";
@@ -69,7 +76,7 @@ public class GamemodeManager : MonoBehaviour
 
     void Explore()
     {
-        gamemodeInfo.text = "exploring alone...";
+        gamemodeInfo.text = "exploring...";
     }
 
     private void Update()
@@ -155,7 +162,7 @@ public class GamemodeManager : MonoBehaviour
 
     public void Kill( BasePlayer killer)
     {
-        if (gamemode == Gamemodes.Deathmatch) killer.score++;
+        if (gamemode == Gamemodes.Deathmatch) killer.AddScore(1);
     }
 
     public string TimerLogic(float time)

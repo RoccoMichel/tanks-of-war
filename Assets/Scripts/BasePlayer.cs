@@ -97,7 +97,7 @@ public class BasePlayer : Entity
     {
         gameObject.SetActive(true);
         gamemode.GetComponent<PlayerSpawner>().SetPosition(transform);
-        gamemode.GetComponentInChildren<Turret>().RefillHalfAmmo();
+        gameObject.GetComponentInChildren<Turret>().RefillHalfAmmo();
         health = maxHealth;
     }    
     public virtual void Respawn(float waitTime)

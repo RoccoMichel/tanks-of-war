@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour
@@ -71,27 +72,25 @@ public class PowerUp : MonoBehaviour
 
             case Powers.Boost:
                 movement.Boost(specifier);
-                try { chat.SendChatMessage(player.identity, $"Has a {specifier} second Booster!"); }
+                try { if (PhotonNetwork.IsMasterClient) chat.SendChatMessage(player.identity, $"Has a {specifier} second Booster!"); }
                 catch { }                
 
                 break;
 
             case Powers.Shield:
                 player.Shield(specifier);
-                try { chat.SendChatMessage(player.identity, $"Has a {specifier} second Shield!"); }
+                try { if (PhotonNetwork.IsMasterClient) chat.SendChatMessage(player.identity, $"Has a {specifier} second Shield!"); }
                 catch { }                
 
                 break;
 
             case Powers.Overdrive:
                 turret.Overdrive(specifier);
-                try { chat.SendChatMessage(player.identity, $"Has a {specifier} second Overdrive!"); }
+                try { if (PhotonNetwork.IsMasterClient) chat.SendChatMessage(player.identity, $"Has a {specifier} second Overdrive!"); }
                 catch { }                
 
                 break;
         }
-
-        // Effect / Sound
 
         Destroy(gameObject);
     }
