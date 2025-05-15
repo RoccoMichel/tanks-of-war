@@ -2,11 +2,13 @@ using TMPro;
 using Photon.Pun;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GamemodeManager : MonoBehaviour
 {
     public Gamemodes gamemode;
     public TMP_Text gamemodeInfo;
+    public TMP_Text announceDisplay;
     public List<BasePlayer> playerList = new();
     private PhotonView view;
     private const float DEATHMATCHLENGTH = 5 * 60;
@@ -24,10 +26,17 @@ public class GamemodeManager : MonoBehaviour
         view = GetComponent<PhotonView>();
         timer = DEATHMATCHLENGTH;
 
-        if (!PhotonNetwork.IsConnected) return;
+        StartCoroutine(StartRequests());
+    }
+
+    private IEnumerator StartRequests()
+    {
+        while (!PhotonNetwork.InRoom) yield return null;
 
         if (PhotonNetwork.IsMasterClient) gamemode = (Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
         else view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
+
+        Anncounce(gamemode.ToString(), 3.5f);
     }
 
     void Deathmatch()
@@ -35,13 +44,17 @@ public class GamemodeManager : MonoBehaviour
         timer = Mathf.Clamp(timer -= Time.deltaTime, 0, int.MaxValue);
         gamemodeInfo.text = $"[ {TimerLogic(timer)} ]";
 
-        if (timer == 0)
-        {
-            RoundOver(true, 10, playerList[0]);
+        if (timer == 0) StartCoroutine(DeathmatchRoundOver(10));
+    }
 
-            CallPlayerListUpdate();
-            timer = DEATHMATCHLENGTH;
-        }
+    IEnumerator DeathmatchRoundOver(float breakLength)
+    {
+        RoundOver(true, breakLength, playerList[0]);
+
+        yield return new WaitForSeconds(breakLength);
+
+        CallPlayerListUpdate();
+        timer = DEATHMATCHLENGTH;
     }
 
     void LastStanding()
@@ -81,7 +94,7 @@ public class GamemodeManager : MonoBehaviour
 
     private void Update()
     {
-        switch(gamemode)
+        switch (gamemode)
         {
             case Gamemodes.Deathmatch:
                 Deathmatch(); break;
@@ -124,9 +137,17 @@ public class GamemodeManager : MonoBehaviour
             player.Respawn(nextRoundInSeconds);
         }
 
-        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"{winner.identity} has won {gamemode}");
-        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", "Congratulations!!!");
-        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"Starting next round in {nextRoundInSeconds}");
+        Anncounce($"{winner.identity} has won", 5);
+        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"{winner.identity} has won {gamemode}!");
+        FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"Starting next round in {nextRoundInSeconds} seconds.");
+    }
+
+    [PunRPC]
+    public void Anncounce(string message, float duration)
+    {
+        announceDisplay.text = message;
+        announceDisplay.color = Color.white;
+        announceDisplay.CrossFadeAlpha(0, duration, false);
     }
 
     private void ResetStats()

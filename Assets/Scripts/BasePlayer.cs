@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class BasePlayer : Entity
@@ -19,7 +20,13 @@ public class BasePlayer : Entity
         try { gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>(); }
         catch { Debug.LogWarning("No GameManager found in Scene!"); }
 
-        if (PhotonNetwork.IsConnected && view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.All, PhotonNetwork.NickName);
+        StartCoroutine(StartRequests());
+    }
+    private IEnumerator StartRequests()
+    {
+        while (!PhotonNetwork.InRoom || view.ViewID != 0) yield return null;
+
+        if (view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.All, PhotonNetwork.NickName);
         else view.RPC(nameof(UpdateIdentity), RpcTarget.Others);
 
         view.RPC(nameof(RequestInfo), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber);
@@ -53,7 +60,7 @@ public class BasePlayer : Entity
     {
         if (isImmortal) return;
 
-        Mathf.Clamp(0, maxHealth, health -= damage);
+        health = Mathf.Clamp(health - damage, 0, maxHealth);
 
         if (health <= 0)
         {
@@ -109,7 +116,6 @@ public class BasePlayer : Entity
     {
         score += amount;
     }
-
 
     [PunRPC]
     protected void RequestInfo(int actorNumber)

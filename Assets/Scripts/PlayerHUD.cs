@@ -3,6 +3,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -24,20 +25,24 @@ public class PlayerHUD : MonoBehaviour
         if (leaderboard != null) leaderboard.SetActive(false);
         if (menu != null) menu.SetActive(false);
 
-        if (PhotonNetwork.InRoom)
-        {
-            RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
-            code.text = $"CODE:\n{RoomInfo[1]}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
-        }
+        quickLookAction = InputSystem.actions.FindAction("QuickLook");
+        menuAction = InputSystem.actions.FindAction("Menu");
+
+        StartCoroutine(StartRequests());
+    }
+
+    private IEnumerator StartRequests()
+    {
+        if (!PhotonNetwork.InRoom) yield return null;
+
+        RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
+        code.text = $"CODE:\n{RoomInfo[1]}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
 
         if (gamemode == null)
         {
             try { gamemode = GameObject.FindGameObjectWithTag("GameController").GetComponent<GamemodeManager>(); }
             catch { Debug.LogWarning("No GameManager found in Scene!"); }
         }
-
-        quickLookAction = InputSystem.actions.FindAction("QuickLook");
-        menuAction = InputSystem.actions.FindAction("Menu");
     }
 
     private void Update()

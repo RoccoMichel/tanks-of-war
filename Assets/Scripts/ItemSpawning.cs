@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class ItemSpawning : MonoBehaviour
@@ -17,6 +18,13 @@ public class ItemSpawning : MonoBehaviour
     {
         if (locations.Length != 0 && locations != null) itemCheck = new GameObject[locations.Length];
         view = GetComponent<PhotonView>();
+        
+        StartCoroutine(StartRequest());
+    }
+
+    private IEnumerator StartRequest()
+    {
+        if (!PhotonNetwork.InRoom) yield return null;
 
         if (!PhotonNetwork.IsMasterClient) view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
     }
@@ -45,7 +53,7 @@ public class ItemSpawning : MonoBehaviour
 
         int type = Random.Range(0, items.Length);
 
-        if (photonInstantiate) itemCheck[index] = PhotonNetwork.Instantiate(items[type].name, locations[index].position, Quaternion.Euler(new(0, 0, Random.Range(0, 360))));
+        if (photonInstantiate) itemCheck[index] = PhotonNetwork.InstantiateRoomObject(items[type].name, locations[index].position, Quaternion.Euler(new(0, 0, Random.Range(0, 360))));
         else view.RPC(nameof(InstantiateNewItem), RpcTarget.All, index, type, index);
     }
 

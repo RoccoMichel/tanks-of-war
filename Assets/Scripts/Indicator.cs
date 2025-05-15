@@ -5,6 +5,12 @@ public class Indicator : MonoBehaviour
 {
     public Vector2 offset;
     public Transform target;
+    private SpriteRenderer sprite;
+
+    private void Start()
+    {
+        sprite = GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -20,7 +26,7 @@ public class Indicator : MonoBehaviour
 
         if (target == null) return;
 
-        gameObject.SetActive(target.gameObject.activeInHierarchy);
+        sprite.enabled = target.gameObject.activeInHierarchy;
         transform.position = new Vector2(target.position.x + offset.x, target.position.y + offset.y);
     }
 }
