@@ -11,7 +11,6 @@ public class PowerUp : MonoBehaviour
     private ChatManager chat;
     public Powers powerUp;
 
-
     public enum Powers
     {
         None,
@@ -28,7 +27,7 @@ public class PowerUp : MonoBehaviour
     {
         if (chat == null) chat = FindAnyObjectByType<ChatManager>();
 
-        // If object has limited time delete after time
+        // If object has limited time delete when it expires
         if (!limited) return;
 
         timer += Time.deltaTime;
@@ -37,23 +36,23 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Power-Ups only work on players
         if (!collision.transform.CompareTag("Player")) return;
 
         Turret turret = collision.GetComponentInChildren<Turret>();
         BasePlayer player = collision.GetComponent<BasePlayer>();
         TankMovement movement = collision.GetComponent<TankMovement>();
 
-
         switch (powerUp)
         {
             case Powers.RefillFull:
-                if (!turret.CanReload()) return;
+                if (!turret.CanRefill()) return;
                 turret.RefillFull();
 
                 break;
 
             case Powers.RefillSpecific:
-                if (!turret.CanReload()) return;
+                if (!turret.CanRefill()) return;
                 turret.RefillSpecific(specifier);
 
                 break;

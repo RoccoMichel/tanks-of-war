@@ -28,6 +28,8 @@ public class PlayerHUD : MonoBehaviour
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
 
+        print(PhotonNetwork.CurrentRoom.Name);
+
         StartCoroutine(StartRequests());
     }
 
@@ -35,7 +37,7 @@ public class PlayerHUD : MonoBehaviour
     {
         if (!PhotonNetwork.InRoom) yield return null;
 
-        RoomInfo = PhotonNetwork.CurrentRoom.ToString().Split('\'');
+        //RoomInfo = PhotonNetwork.CurrentRoom.Name;
         code.text = $"CODE:\n{RoomInfo[1]}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
 
         if (gamemode == null)
@@ -47,7 +49,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void Update()
     {
-        if (player == null)
+        if (player == null) // Get a valid Player to reference from
         {
             foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
             {
@@ -60,18 +62,20 @@ public class PlayerHUD : MonoBehaviour
                 }
             }
         }
-        else
+        else // Display Player health and ammo
         {
             health.text = "HP: " + playerScript.health.ToString();
             ammo.text = player.GetComponentInChildren<Turret>().ammo.ToString() + " Round(s) Left";
         }
 
+        // Toggle between leaderboard and glanceboard
         if (quickLookAction.WasPressedThisFrame())
         {
             leaderboard.SetActive(!leaderboard.activeInHierarchy);
             glanceboard.SetActive(!glanceboard.activeInHierarchy);
         }
 
+        // Write to leaderboard
         if (leaderboard != null && leaderboard.activeInHierarchy)
         {
             TMP_Text textMesh = leaderboard.GetComponentInChildren<TMP_Text>();
@@ -82,6 +86,7 @@ public class PlayerHUD : MonoBehaviour
 
         }
 
+        // Write to glanceboard
         if (glanceboard != null && glanceboard.activeInHierarchy)
         {
             string leaderInfo;
@@ -89,6 +94,7 @@ public class PlayerHUD : MonoBehaviour
 
             try 
             {
+                // should display the leading player and you own score
                 if (localRank == 0) leaderInfo = $"YOU\t| {gamemode.playerList[localRank].score} points";
                 else
                 {
@@ -101,15 +107,17 @@ public class PlayerHUD : MonoBehaviour
             glanceboard.GetComponent<TMP_Text>().text = leaderInfo;
         }
 
+        // Toggle Exit Menu
         if (menuAction.WasPressedThisFrame()) menu.SetActive(!menu.activeInHierarchy);
     }
 
+    // Leave the Room and return to Main Menu
     public void Exit()
     {
         if (PhotonNetwork.IsConnected)
         {
             player = null;
-            PhotonNetwork.Disconnect();
+            PhotonNetwork.LeaveRoom();
             FindAnyObjectByType<ChatManager>().SendChatMessage(PhotonNetwork.NickName, "has left.");
         }
         Invoke(nameof(Disconnect), 0.5f);

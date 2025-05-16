@@ -10,6 +10,7 @@ public class GamemodeManager : MonoBehaviour
     public TMP_Text gamemodeInfo;
     public TMP_Text announceDisplay;
     public List<BasePlayer> playerList = new();
+    private ChatManager chat;
     private PhotonView view;
     private const float DEATHMATCHLENGTH = 5 * 60;
     private float timer;
@@ -23,22 +24,28 @@ public class GamemodeManager : MonoBehaviour
 
     private void Start()
     {
+        if (chat == null) chat = FindAnyObjectByType<ChatManager>();
         view = GetComponent<PhotonView>();
         timer = DEATHMATCHLENGTH;
-
+                
         StartCoroutine(StartRequests());
     }
 
     private IEnumerator StartRequests()
     {
+        // Sync required data with the Network when connected
         while (!PhotonNetwork.InRoom) yield return null;
 
         if (PhotonNetwork.IsMasterClient) gamemode = (Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
         else view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
 
-        Anncounce(gamemode.ToString(), 3.5f);
+        Announce(gamemode.ToString(), 3.5f);
     }
 
+    /// <summary>
+    /// Gamemode where players need to get as many kills with in a time duration
+    /// announce a winner when time is up and start a new Round
+    /// </summary>
     void Deathmatch()
     {
         timer = Mathf.Clamp(timer -= Time.deltaTime, 0, int.MaxValue);
@@ -57,9 +64,13 @@ public class GamemodeManager : MonoBehaviour
         timer = DEATHMATCHLENGTH;
     }
 
+    /// <summary>
+    /// Last player alive gets a point then the round restarts
+    /// </summary>
     void LastStanding()
     {
         print(PhotonNetwork.CountOfPlayersInRooms);
+        // make sure there are enough players to duel
         if (PhotonNetwork.CountOfPlayersInRooms <= 1)
         {
             gamemodeInfo.text = "waiting for more players to join...";
@@ -87,6 +98,9 @@ public class GamemodeManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// No gamemode constraints player are free to do as they want
+    /// </summary>
     void Explore()
     {
         gamemodeInfo.text = "exploring...";
@@ -94,6 +108,7 @@ public class GamemodeManager : MonoBehaviour
 
     private void Update()
     {
+        // Update loop depending on active gamemode
         switch (gamemode)
         {
             case Gamemodes.Deathmatch:
@@ -106,6 +121,7 @@ public class GamemodeManager : MonoBehaviour
                 Explore(); break;
         }
 
+        // Sort player list by user with the highest score
         if (playerList.Count > 0 && playerList != null)
             playerList.Sort((a, b) => b.score.CompareTo(a.score));
     }
@@ -115,6 +131,11 @@ public class GamemodeManager : MonoBehaviour
         view.RPC(nameof(PlayerListUpdate), RpcTarget.All);
     }
 
+    /// <summary>
+    /// Get the position in the leader board of a certain player
+    /// </summary>
+    /// <param name="player">comparing user</param>
+    /// <returns>Element index (0 is highest)</returns>
     public int GetPlayerRank(BasePlayer player)
     {
         int rank;
@@ -127,7 +148,12 @@ public class GamemodeManager : MonoBehaviour
         return rank;
     }
 
-
+    /// <summary>
+    /// Necessary functions to end the Round and start the next
+    /// </summary>
+    /// <param name="resetStats">Should it reset player score and death count</param>
+    /// <param name="nextRoundInSeconds">time until players get respawned</param>
+    /// <param name="winner">congratulated user in the UI</param>
     private void RoundOver(bool resetStats, float nextRoundInSeconds, BasePlayer winner)
     {
         if (resetStats) Invoke(nameof(ResetStats), nextRoundInSeconds);
@@ -137,19 +163,28 @@ public class GamemodeManager : MonoBehaviour
             player.Respawn(nextRoundInSeconds);
         }
 
-        Anncounce($"{winner.identity} has won", 5);
+        Announce($"{winner.identity} has won", 5);
         FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"{winner.identity} has won {gamemode}!");
         FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"Starting next round in {nextRoundInSeconds} seconds.");
     }
 
+    /// <summary>
+    /// Show a message in big text on the screen
+    /// </summary>
+    /// <param name="message">display string</param>
+    /// <param name="duration">time until it fades to </param>
     [PunRPC]
-    public void Anncounce(string message, float duration)
+    public void Announce(string message, float duration)
     {
         announceDisplay.text = message;
         announceDisplay.color = Color.white;
+        announceDisplay.CrossFadeAlpha(1, 0, true);
         announceDisplay.CrossFadeAlpha(0, duration, false);
     }
 
+    /// <summary>
+    /// Reset player score and death count
+    /// </summary>
     private void ResetStats()
     {
         foreach (BasePlayer player in playerList)
@@ -181,11 +216,20 @@ public class GamemodeManager : MonoBehaviour
         gamemode = (Gamemodes)currentGamemode;
     }
 
-    public void Kill( BasePlayer killer)
+    /// <summary>
+    /// If Deathmatch give killer a point
+    /// </summary>
+    /// <param name="killer">Score Receiver</param>
+    /// <param name="victim">Person who died</param>
+    public void Kill(BasePlayer killer, BasePlayer victim)
     {
+        try { if (PhotonNetwork.IsMasterClient) chat.SendChatMessage(killer.identity, $"killed {victim.identity}"); }
+        catch { }
+
         if (gamemode == Gamemodes.Deathmatch) killer.AddScore(1);
     }
 
+    // Translate float into minutes and seconds
     public string TimerLogic(float time)
     {
         int minutes = Mathf.FloorToInt(time / 60);

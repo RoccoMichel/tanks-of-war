@@ -18,11 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: boostPower
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: driveSpeed
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: rotationSpeed
@@ -90,11 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: rotationSpeed
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: secondsBetweenFire
-      value: 0.7
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 6518583336401168340, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_Sprite

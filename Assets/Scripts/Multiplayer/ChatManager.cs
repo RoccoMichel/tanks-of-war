@@ -30,12 +30,14 @@ public class ChatManager : MonoBehaviour
         cancelAction = InputSystem.actions.FindAction("Cancel");
         view = GetComponent<PhotonView>();
 
+        // make sure chat starts in recent view mode
         inChat = false;
         TogglChatText(false);
     }
 
     private void Update()
     {
+        // Reduce timers for all, remove element if it expired
         for (int i = 0;  i < timers.Count; i++)
         {
             timers[i] -= Time.deltaTime;
@@ -53,7 +55,7 @@ public class ChatManager : MonoBehaviour
     }
 
     [PunRPC]
-    public virtual void ShowMessage(string username, string message)
+    private void ReceiveMessage(string username, string message)
     {
         if (string.IsNullOrWhiteSpace(username)) username = "ANONYMOUS";
 
@@ -64,12 +66,19 @@ public class ChatManager : MonoBehaviour
         full.text = $"{full.text}[{username}] {message}\n\n";
     }
 
+    /// <summary>
+    /// Send a message to all clients
+    /// </summary>
+    /// <param name="sender">Username</param>
     public void SendChatMessage(string sender, string message)
     {
         if (!PhotonNetwork.InRoom) return;
-        view.RPC(nameof(ShowMessage), RpcTarget.All, sender, message);
+        view.RPC(nameof(ReceiveMessage), RpcTarget.All, sender, message);
     }
 
+    /// <summary>
+    /// Rewrite every stored message to the recent chat window
+    /// </summary>
     public virtual void RefreshRecentChat()
     {
         recent.text = string.Empty;
@@ -80,6 +89,9 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggle the visibly of the chat on the canvas
+    /// </summary>
     public void ToggleChat()
     {
         inChat = !inChat;

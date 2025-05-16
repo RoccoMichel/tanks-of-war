@@ -24,6 +24,7 @@ public class TankMovement : MonoBehaviour
 
     void Update()
     {
+        // Handle potential boost
         boostTimer = Mathf.Clamp(boostTimer -= Time.deltaTime, 0, int.MaxValue);
         if (boostTimer == 0) trail.enabled = false;
 
@@ -31,20 +32,21 @@ public class TankMovement : MonoBehaviour
 
         if (moveAction.inProgress)
         {
+            // User input
             Vector2 moveValue = moveAction.ReadValue<Vector2>();
 
             // Rotation
             if (moveValue.x != 0)
             {
-                float inputValue = moveValue.x * Time.deltaTime * -1f;
-                Vector3 newRotation = new (0, 0, inputValue * rotationSpeed * 100);
+                float inputValue = moveValue.x * Time.deltaTime * -1f; // Invert input
+                Vector3 newRotation = new (0, 0, inputValue * rotationSpeed * 100); // translate to rotation speed
                 transform.Rotate(newRotation);
             }
 
             // Driving
             if (moveValue.y != 0)
             {
-                float newSpeed = moveValue.y * Time.deltaTime * driveSpeed;
+                float newSpeed = moveValue.y * Time.deltaTime * driveSpeed; // translate input to speed
                 newSpeed *= onRoad ? roadMultiplier : 1; // drive faster when on the road
                 newSpeed *= boostTimer > 0 ? boostPower : 1; // apply possible boost
                 rigidbody.AddForce(transform.up * newSpeed, ForceMode2D.Impulse);
@@ -52,6 +54,10 @@ public class TankMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Start or prolong tank boost
+    /// </summary>
+    /// <param name="timeSeconds">added time in seconds</param>
     public void Boost(float timeSeconds)
     {
         boostTimer += timeSeconds;

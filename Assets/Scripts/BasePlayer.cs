@@ -64,7 +64,7 @@ public class BasePlayer : Entity
 
         if (health <= 0)
         {
-            gamemode.Kill(PhotonView.Find(sourceViewID).GetComponent<BasePlayer>());
+            gamemode.Kill(PhotonView.Find(sourceViewID).GetComponent<BasePlayer>(), this);
             Die();
         }
     }

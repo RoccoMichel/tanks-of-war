@@ -58,6 +58,9 @@ MonoBehaviour:
   - InstantiateNewItem
   - SpawnContents
   - Anncounce
+  - Announce
+  - ReciveMessage
+  - ReceiveMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

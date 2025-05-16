@@ -24,8 +24,10 @@ public class Turret : MonoBehaviour
     private InputAction attackAction;
     private PhotonView view;
 
+
     private void OnEnable()
     {
+        // reset variables if it gameObject gets reenabled
         timer = 0;
         overdriveTimer = 0;
     }
@@ -39,7 +41,10 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
+        // Shooting Cooldown
         timer = Mathf.Clamp(timer - Time.deltaTime, 0, int.MaxValue);
+
+        // Overdrive Power-Up
         overdriveTimer = Mathf.Clamp(overdriveTimer - Time.deltaTime, 0, int.MaxValue);
         overdriveEffect.SetActive(overdriveTimer > 0);
 
@@ -62,14 +67,20 @@ public class Turret : MonoBehaviour
     [PunRPC]
     public virtual void Shoot(int bullet)
     {
+        // reset timer and reduce ammo (exception: in overdrive mode)
         timer = overdriveTimer > 0 ? 0.1f : secondsBetweenFire;
         if (infiniteAmmo || overdriveTimer > 0) overdriveTimer += 0.1f;
         else ammo--;
 
+        // Create the bullet and effect
         Instantiate(bullets[bullet], muzzle.position, transform.rotation).GetComponent<Bullet>().origin = GetComponentInParent<BasePlayer>();
         Destroy(Instantiate(muzzleFlash, muzzle.position, muzzle.rotation), 0.4f);
     }
 
+    /// <summary>
+    /// Start or prolong turret overdrive
+    /// </summary>
+    /// <param name="timeSeconds">added time in seconds</param>
     public void Overdrive(float timeSeconds)
     {
         overdriveTimer += timeSeconds;
@@ -84,6 +95,9 @@ public class Turret : MonoBehaviour
         ammo = maxAmmo;
     }
 
+    /// <summary>
+    /// Add an specific amount of ammo to the already existing Turret ammo
+    /// </summary>
     public virtual void RefillSpecific(int amount)
     {
         ammo = Mathf.Clamp(ammo + amount, 0, maxAmmo);
@@ -97,7 +111,10 @@ public class Turret : MonoBehaviour
         ammo = maxAmmo / 2;
     }
 
-    public bool CanReload()
+    /// <summary>
+    /// Check if ammo is maxed out
+    /// </summary>
+    public bool CanRefill()
     {
         if (ammo < maxAmmo) return true;
         else return false;
