@@ -24,7 +24,7 @@ public class ItemSpawning : MonoBehaviour
 
     private IEnumerator StartRequest()
     {
-        if (!PhotonNetwork.InRoom) yield return null;
+       yield return new WaitForSeconds(1);
 
         if (!PhotonNetwork.IsMasterClient) view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
     }

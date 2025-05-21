@@ -85,7 +85,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        print(returnCode);
+        print("ERROR CODE:" + returnCode);
         if (debug) print($"couldn't join a room! {message}");
         error.Play("Display");
     }

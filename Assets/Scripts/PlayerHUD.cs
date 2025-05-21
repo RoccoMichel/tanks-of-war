@@ -18,7 +18,6 @@ public class PlayerHUD : MonoBehaviour
     private BasePlayer playerScript;
     private InputAction quickLookAction;
     private InputAction menuAction;
-    internal string[] RoomInfo;
 
     private void Start()
     {
@@ -35,10 +34,10 @@ public class PlayerHUD : MonoBehaviour
 
     private IEnumerator StartRequests()
     {
-        if (!PhotonNetwork.InRoom) yield return null;
+        yield return new WaitForSeconds(1);
 
         //RoomInfo = PhotonNetwork.CurrentRoom.Name;
-        code.text = $"CODE:\n{RoomInfo[1]}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
+        code.text = $"CODE:\t{PhotonNetwork.CurrentRoom.Name}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
 
         if (gamemode == null)
         {

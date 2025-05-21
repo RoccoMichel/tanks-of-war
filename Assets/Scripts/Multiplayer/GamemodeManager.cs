@@ -34,7 +34,7 @@ public class GamemodeManager : MonoBehaviour
     private IEnumerator StartRequests()
     {
         // Sync required data with the Network when connected
-        while (!PhotonNetwork.InRoom) yield return null;
+        yield return new WaitForSeconds(1);
 
         if (PhotonNetwork.IsMasterClient) gamemode = (Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
         else view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);

@@ -24,7 +24,7 @@ public class BasePlayer : Entity
     }
     private IEnumerator StartRequests()
     {
-        while (!PhotonNetwork.InRoom || view.ViewID != 0) yield return null;
+        yield return new WaitForSeconds(1);
 
         if (view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.All, PhotonNetwork.NickName);
         else view.RPC(nameof(UpdateIdentity), RpcTarget.Others);
