@@ -27,8 +27,6 @@ public class PlayerHUD : MonoBehaviour
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
 
-        print(PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.Name : "Tutorial");
-
         StartCoroutine(StartRequests());
     }
 
@@ -36,8 +34,11 @@ public class PlayerHUD : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        //RoomInfo = PhotonNetwork.CurrentRoom.Name;
-        code.text = $"CODE:\t{PhotonNetwork.CurrentRoom.Name}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
+        if (PhotonNetwork.InRoom)
+        {
+            print(PhotonNetwork.CurrentRoom.Name);
+            code.text = $"CODE:\t{PhotonNetwork.CurrentRoom.Name}\n[{(PhotonNetwork.CurrentRoom.IsOpen ? "public" : "private")}]";
+        }
 
         if (gamemode == null)
         {
@@ -113,7 +114,7 @@ public class PlayerHUD : MonoBehaviour
     // Leave the Room and return to Main Menu
     public void Exit()
     {
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.InRoom)
         {
             player = null;
             PhotonNetwork.LeaveRoom();

@@ -80,7 +80,7 @@ public class BasePlayer : Entity
     public override void Die()
     {
         shieldTimer = 0;
-        view.RPC(nameof(AddDeath), RpcTarget.All);
+        if (view.IsMine) view.RPC(nameof(AddDeath), RpcTarget.All);
 
         if (gamemode.gamemode == GamemodeManager.Gamemodes.Deathmatch) Invoke(nameof(Respawn), 5);
         if (gamemode.gamemode == GamemodeManager.Gamemodes.Explore) Invoke(nameof(Respawn), 0.5f);
@@ -118,31 +118,13 @@ public class BasePlayer : Entity
     }
 
     [PunRPC]
-    protected void RequestInfo(int actorNumber)
+    public void RequestInfo(int actorNumber)
     {
         view.RPC(nameof(ReceiveInfo), PhotonNetwork.CurrentRoom.GetPlayer(actorNumber), health, score, deaths, GetComponentInChildren<Turret>().bullet);
     }
 
     [PunRPC]
-    protected void ReceiveInfo(float newHealth)
-    {
-        health = newHealth;
-    }    
-    [PunRPC]
-    protected void ReceiveInfo(float newHealth, int newScore)
-    {
-        health = newHealth;
-        score = newScore;
-    }    
-    [PunRPC]
-    protected void ReceiveInfo(float newHealth, int newScore, int newDeaths)
-    {
-        health = newHealth;
-        score = newScore;
-        deaths = newDeaths;
-    }    
-    [PunRPC]
-    protected void ReceiveInfo(float newHealth, int newScore, int newDeaths, int currentBullet)
+    public void ReceiveInfo(float newHealth, int newScore, int newDeaths, int currentBullet)
     {
         health = newHealth;
         score = newScore;
@@ -151,13 +133,13 @@ public class BasePlayer : Entity
     }
 
     [PunRPC]
-    protected void SetIdentity(string newIdentity)
+    public void SetIdentity(string newIdentity)
     {
         identity = newIdentity;
     }    
     
     [PunRPC]
-    protected void UpdateIdentity()
+    public void UpdateIdentity()
     {
         if (view.IsMine) view.RPC(nameof(SetIdentity), RpcTarget.Others, PhotonNetwork.NickName);
     }

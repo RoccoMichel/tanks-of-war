@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TankSelector : MonoBehaviour
 {
@@ -9,6 +8,8 @@ public class TankSelector : MonoBehaviour
 
     private void Start()
     {
+        // Pre-Selected a random tank to encourage using others than the first pick
+        selected = Random.Range(0, tankPreviews.Length);
         ChangeTankPreview();
         PlayerPrefs.SetString("selectedTank", tankNames[selected]);
     }

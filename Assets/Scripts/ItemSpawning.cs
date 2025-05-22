@@ -24,7 +24,7 @@ public class ItemSpawning : MonoBehaviour
 
     private IEnumerator StartRequest()
     {
-       yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
 
         if (!PhotonNetwork.IsMasterClient) view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
     }
@@ -66,13 +66,14 @@ public class ItemSpawning : MonoBehaviour
     }
 
     [PunRPC]
-    private void InstantiateNewItem(int slotIndex, int typeIndex, int locationIndex)
+    public void InstantiateNewItem(int slotIndex, int typeIndex, int locationIndex)
     {
         Vector3 rotation = new(0, 0, Random.Range(0, 360));
         itemCheck[slotIndex] = Instantiate(items[typeIndex], locations[locationIndex].position, Quaternion.Euler(rotation));
     }
 
-    protected void RequestInfo(int actorNumber)
+    [PunRPC]
+    public void RequestInfo(int actorNumber)
     {
         List<int> filledLocations = new();
         List<int> itemOnLocation = new();
@@ -93,7 +94,7 @@ public class ItemSpawning : MonoBehaviour
     }
 
     [PunRPC]
-    protected void ReceiveInfo(int[] location, int[] item)
+    public void ReceiveInfo(int[] location, int[] item)
     {
         for (int i = 0; i < location.Length; i++) 
         {

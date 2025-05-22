@@ -14,6 +14,7 @@ public class GamemodeManager : MonoBehaviour
     private PhotonView view;
     private const float DEATHMATCHLENGTH = 5 * 60;
     private bool inDuel;
+    private bool cooldown;
     [SerializeField] private float timer;
 
     public enum Gamemodes
@@ -77,8 +78,24 @@ public class GamemodeManager : MonoBehaviour
         // make sure there are enough players to duel
         if (playerList.Count <= 1)
         {
+            cooldown = false;
             PlayerListUpdate();
             gamemodeInfo.text = "waiting for more players to join...";
+            return;
+        }
+        else if (!inDuel && !cooldown)
+        {
+            Announce("Starting in 10 seconds!", 5);
+
+            foreach (BasePlayer player in playerList) player.Shield(1);
+            Invoke(nameof(SetInDuel), 10);
+            cooldown = true;
+            return;
+        }
+        else if (!inDuel && cooldown)
+        {
+            foreach (BasePlayer player in playerList) player.Shield(Time.deltaTime);
+            gamemodeInfo.text = "starting soon...";
             return;
         }
 
@@ -90,15 +107,14 @@ public class GamemodeManager : MonoBehaviour
         {
             foreach (BasePlayer player in playerList)
             {
-                if (player.health > 0)
-                {
-                    inDuel = false;
-                    player.score++;
-                    RoundOver(false, 6, player);
-                    Invoke(nameof(SetInDuel), 10);
+                if (!player.isActiveAndEnabled || player.health <= 0) continue;
+                
+                inDuel = false;
+                RoundOver(false, 6, player);
+                if (PhotonNetwork.IsMasterClient) player.score++;
 
-                    break;
-                }
+                Invoke(nameof(SetInDuel), 8);
+                break;
             }
         }
     }
@@ -127,7 +143,7 @@ public class GamemodeManager : MonoBehaviour
         }
 
         // Sort player list by user with the highest score
-        if (playerList.Count > 0 && playerList != null)
+        if (playerList.Count > 1 && playerList != null)
             playerList.Sort((a, b) => b.score.CompareTo(a.score));
     }
 

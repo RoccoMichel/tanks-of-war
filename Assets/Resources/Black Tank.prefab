@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3007577337482126620
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 515547461804979329, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: sceneViewId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2948736170927094632, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: identity
+      value: Black Tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: boostPower
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: driveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: rotationSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699829095686499015, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: roadMultiplier
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4373819240325577056, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_Name
+      value: Black Tank Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: ammo
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: bullet
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: maxAmmo
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: rotationSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244359372516281751, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: secondsBetweenFire
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367294325962772801, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
+      propertyPath: sceneViewId
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
