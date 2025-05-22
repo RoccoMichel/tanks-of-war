@@ -27,7 +27,7 @@ public class PlayerHUD : MonoBehaviour
         quickLookAction = InputSystem.actions.FindAction("QuickLook");
         menuAction = InputSystem.actions.FindAction("Menu");
 
-        print(PhotonNetwork.CurrentRoom.Name);
+        print(PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.Name : "Tutorial");
 
         StartCoroutine(StartRequests());
     }
@@ -120,6 +120,12 @@ public class PlayerHUD : MonoBehaviour
             FindAnyObjectByType<ChatManager>().SendChatMessage(PhotonNetwork.NickName, "has left.");
         }
         Invoke(nameof(Disconnect), 0.5f);
+    }
+
+    public void ShowLeaderboard(bool b)
+    {
+        leaderboard.SetActive(b);
+        glanceboard.SetActive(!b);
     }
 
     void Disconnect()

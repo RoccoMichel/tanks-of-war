@@ -13,7 +13,8 @@ public class GamemodeManager : MonoBehaviour
     private ChatManager chat;
     private PhotonView view;
     private const float DEATHMATCHLENGTH = 5 * 60;
-    private float timer;
+    private bool inDuel;
+    [SerializeField] private float timer;
 
     public enum Gamemodes
     {
@@ -39,6 +40,8 @@ public class GamemodeManager : MonoBehaviour
         if (PhotonNetwork.IsMasterClient) gamemode = (Gamemodes)PlayerPrefs.GetInt("Preferred Gamemode", 2);
         else view.RPC(nameof(RequestInfo), RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
 
+        yield return new WaitForSeconds(0.5f);
+
         Announce(gamemode.ToString(), 3.5f);
     }
 
@@ -56,12 +59,14 @@ public class GamemodeManager : MonoBehaviour
 
     IEnumerator DeathmatchRoundOver(float breakLength)
     {
+        timer = DEATHMATCHLENGTH;
+
         RoundOver(true, breakLength, playerList[0]);
 
         yield return new WaitForSeconds(breakLength);
 
         CallPlayerListUpdate();
-        timer = DEATHMATCHLENGTH;
+        FindAnyObjectByType<PlayerHUD>().ShowLeaderboard(false);
     }
 
     /// <summary>
@@ -69,10 +74,10 @@ public class GamemodeManager : MonoBehaviour
     /// </summary>
     void LastStanding()
     {
-        print(PhotonNetwork.CountOfPlayersInRooms);
         // make sure there are enough players to duel
-        if (PhotonNetwork.CountOfPlayersInRooms <= 1)
+        if (playerList.Count <= 1)
         {
+            PlayerListUpdate();
             gamemodeInfo.text = "waiting for more players to join...";
             return;
         }
@@ -81,20 +86,20 @@ public class GamemodeManager : MonoBehaviour
         foreach (BasePlayer player in playerList) if (player.health > 0) alive++;
         gamemodeInfo.text = $"{alive} players left!";
 
-        if (alive < 2)
+        if (alive < 2 && inDuel)
         {
             foreach (BasePlayer player in playerList)
             {
                 if (player.health > 0)
                 {
+                    inDuel = false;
                     player.score++;
-                    RoundOver(false, 10, player);
+                    RoundOver(false, 6, player);
+                    Invoke(nameof(SetInDuel), 10);
 
                     break;
                 }
             }
-
-            CallPlayerListUpdate();
         }
     }
 
@@ -164,8 +169,14 @@ public class GamemodeManager : MonoBehaviour
         }
 
         Announce($"{winner.identity} has won", 5);
+        FindAnyObjectByType<PlayerHUD>().ShowLeaderboard(true);
         FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"{winner.identity} has won {gamemode}!");
         FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"Starting next round in {nextRoundInSeconds} seconds.");
+    }
+
+    private void SetInDuel()
+    {
+        inDuel = true;
     }
 
     /// <summary>
@@ -187,6 +198,7 @@ public class GamemodeManager : MonoBehaviour
     /// </summary>
     private void ResetStats()
     {
+        PlayerListUpdate();
         foreach (BasePlayer player in playerList)
         {
             player.score = 0;

@@ -31,6 +31,12 @@ public class ItemSpawning : MonoBehaviour
 
     private void Update()
     {
+        if (!PhotonNetwork.InRoom)
+        {
+            timer += Time.deltaTime;
+            if (timer >= frequencySeconds) SpawnItem();
+        }
+
         if (!PhotonNetwork.IsMasterClient) return;
 
         timer += Time.deltaTime;
@@ -52,6 +58,8 @@ public class ItemSpawning : MonoBehaviour
         }
 
         int type = Random.Range(0, items.Length);
+
+        if (!PhotonNetwork.InRoom) InstantiateNewItem(index, type, index);
 
         if (photonInstantiate) itemCheck[index] = PhotonNetwork.InstantiateRoomObject(items[type].name, locations[index].position, Quaternion.Euler(new(0, 0, Random.Range(0, 360))));
         else view.RPC(nameof(InstantiateNewItem), RpcTarget.All, index, type, index);

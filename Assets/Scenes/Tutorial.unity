@@ -2009,6 +2009,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285495863}
+  - component: {fileID: 285495865}
+  - component: {fileID: 285495864}
   m_Layer: 0
   m_Name: Wrench Crate
   m_TagString: Untagged
@@ -2035,6 +2037,47 @@ RectTransform:
   m_AnchoredPosition: {x: 2.5, y: -2.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &285495864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285495862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 8
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &285495865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285495862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonInstantiate: 0
+  frequencySeconds: 5
+  attempts: 1
+  locations:
+  - {fileID: 285495863}
+  items:
+  - {fileID: 1736649427496493345, guid: 4f9cd0a92addfa6459e6fb887eb2a547, type: 3}
 --- !u!1 &305644573
 GameObject:
   m_ObjectHideFlags: 0
@@ -26085,6 +26128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 521443153}
+  - component: {fileID: 521443155}
+  - component: {fileID: 521443154}
   m_Layer: 0
   m_Name: Ammo Location
   m_TagString: Untagged
@@ -26111,6 +26156,47 @@ RectTransform:
   m_AnchoredPosition: {x: 1.5, y: -2.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &521443154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521443152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 6
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &521443155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521443152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonInstantiate: 0
+  frequencySeconds: 4
+  attempts: 1
+  locations:
+  - {fileID: 521443153}
+  items:
+  - {fileID: 4995140272625773552, guid: f0ec73cc99342c349bb5182a67a77f87, type: 3}
 --- !u!1 &581311571
 GameObject:
   m_ObjectHideFlags: 0
@@ -26123,6 +26209,7 @@ GameObject:
   - component: {fileID: 581311574}
   - component: {fileID: 581311573}
   - component: {fileID: 581311575}
+  - component: {fileID: 581311576}
   m_Layer: 0
   m_Name: Hazards
   m_TagString: Untagged
@@ -26303,12 +26390,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonInstantiate: 0
   frequencySeconds: 5
   attempts: 1
   locations:
   - {fileID: 968191142}
   items:
   - {fileID: 6251339080183042415, guid: c5302f7dc75c3654d86bebdf44a49905, type: 3}
+--- !u!114 &581311576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581311571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &589096167
 GameObject:
   m_ObjectHideFlags: 0
@@ -28039,6 +28149,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 879579925}
+  - component: {fileID: 879579927}
+  - component: {fileID: 879579926}
   m_Layer: 0
   m_Name: Wrench Location
   m_TagString: Untagged
@@ -28065,6 +28177,47 @@ RectTransform:
   m_AnchoredPosition: {x: -2.5, y: -2.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &879579926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879579924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 5
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &879579927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879579924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonInstantiate: 0
+  frequencySeconds: 4
+  attempts: 1
+  locations:
+  - {fileID: 879579925}
+  items:
+  - {fileID: 1283085762861587675, guid: c9aeb3ed0e2e06842a5cad5cc61fa80b, type: 3}
 --- !u!1 &885280965
 GameObject:
   m_ObjectHideFlags: 0
@@ -28556,8 +28709,7 @@ GameObject:
   - component: {fileID: 930836134}
   - component: {fileID: 930836133}
   - component: {fileID: 930836137}
-  - component: {fileID: 930836136}
-  - component: {fileID: 930836135}
+  - component: {fileID: 930836138}
   m_Layer: 0
   m_Name: Power Ups
   m_TagString: Untagged
@@ -28726,42 +28878,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &930836135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930836131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequencySeconds: 3
-  attempts: 1
-  locations:
-  - {fileID: 1146093035}
-  items:
-  - {fileID: 269708129145946934, guid: 68af923fbf1e2ae46a9bf89882b6d33c, type: 3}
---- !u!114 &930836136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930836131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequencySeconds: 3
-  attempts: 1
-  locations:
-  - {fileID: 1741083320}
-  items:
-  - {fileID: 7055555369181671788, guid: a2d3466a00330b24c8950402260ca3d9, type: 3}
 --- !u!114 &930836137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28774,12 +28890,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonInstantiate: 0
   frequencySeconds: 3
   attempts: 1
   locations:
   - {fileID: 66392089}
+  - {fileID: 1741083320}
+  - {fileID: 1146093035}
   items:
   - {fileID: 9147660112773436327, guid: 71940602e37d08c4eb4f45c39effa8df, type: 3}
+  - {fileID: 7055555369181671788, guid: a2d3466a00330b24c8950402260ca3d9, type: 3}
+  - {fileID: 269708129145946934, guid: 68af923fbf1e2ae46a9bf89882b6d33c, type: 3}
+--- !u!114 &930836138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930836131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &968156595
 GameObject:
   m_ObjectHideFlags: 0
@@ -29826,8 +29969,6 @@ GameObject:
   - component: {fileID: 1183572451}
   - component: {fileID: 1183572453}
   - component: {fileID: 1183572452}
-  - component: {fileID: 1183572455}
-  - component: {fileID: 1183572454}
   m_Layer: 0
   m_Name: Crates
   m_TagString: Untagged
@@ -29995,42 +30136,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1183572454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183572450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequencySeconds: 5
-  attempts: 1
-  locations:
-  - {fileID: 285495863}
-  items:
-  - {fileID: 1736649427496493345, guid: 4f9cd0a92addfa6459e6fb887eb2a547, type: 3}
---- !u!114 &1183572455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183572450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequencySeconds: 5
-  attempts: 1
-  locations:
-  - {fileID: 1663433313}
-  items:
-  - {fileID: 1186798912304248871, guid: 62078e74b308168468d5d299bd56b09e, type: 3}
 --- !u!1001 &1260218382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30104,8 +30209,6 @@ GameObject:
   - component: {fileID: 1292140766}
   - component: {fileID: 1292140768}
   - component: {fileID: 1292140767}
-  - component: {fileID: 1292140770}
-  - component: {fileID: 1292140769}
   m_Layer: 0
   m_Name: Pick Ups
   m_TagString: Untagged
@@ -30275,42 +30378,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1292140769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1292140765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequencySeconds: 4
-  attempts: 1
-  locations:
-  - {fileID: 521443153}
-  items:
-  - {fileID: 4995140272625773552, guid: f0ec73cc99342c349bb5182a67a77f87, type: 3}
---- !u!114 &1292140770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1292140765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequencySeconds: 4
-  attempts: 1
-  locations:
-  - {fileID: 879579925}
-  items:
-  - {fileID: 1283085762861587675, guid: c9aeb3ed0e2e06842a5cad5cc61fa80b, type: 3}
 --- !u!1 &1311683909
 GameObject:
   m_ObjectHideFlags: 0
@@ -35646,6 +35713,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1663433313}
+  - component: {fileID: 1663433315}
+  - component: {fileID: 1663433314}
   m_Layer: 0
   m_Name: Ammo Crate
   m_TagString: Untagged
@@ -35672,6 +35741,47 @@ RectTransform:
   m_AnchoredPosition: {x: -2.5, y: -2.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1663433314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663433312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 7
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &1663433315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663433312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883165073a0435b40a454f618d012aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonInstantiate: 0
+  frequencySeconds: 5
+  attempts: 1
+  locations:
+  - {fileID: 1663433313}
+  items:
+  - {fileID: 1186798912304248871, guid: 62078e74b308168468d5d299bd56b09e, type: 3}
 --- !u!1 &1699053860
 GameObject:
   m_ObjectHideFlags: 0

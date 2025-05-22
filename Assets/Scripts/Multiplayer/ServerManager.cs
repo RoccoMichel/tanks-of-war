@@ -8,6 +8,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
     public bool debug;
     [SerializeField] Button joinButton;
     [SerializeField] Button createButton;
+    [SerializeField] TMP_Text regionDisplay;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_Dropdown gamemodeSelector;
     public bool validName;
@@ -41,6 +42,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
         else joinButton.interactable = false;
 
         createButton.interactable = PhotonNetwork.IsConnectedAndReady;
+        regionDisplay.text = $"[{PhotonNetwork.CloudRegion}]";
     }
 
     public void ExitGame()

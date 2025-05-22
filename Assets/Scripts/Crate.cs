@@ -17,7 +17,7 @@ public class Crate : Destructible
 
     public override void Die()
     {
-        if (!PhotonNetwork.IsMasterClient || view == null) return;
+        if ((!PhotonNetwork.IsMasterClient || view == null) && PhotonNetwork.InRoom) return;
 
         int amount = Random.Range((int)randomAmount.x, (int)randomAmount.y + 1);
         int content = Random.Range(0, contents.Length);
@@ -29,7 +29,8 @@ public class Crate : Destructible
 
             if (!oneType) content = Random.Range(0, contents.Length);
 
-            view.RPC(nameof(SpawnContents), RpcTarget.All, content, position.x, position.y, rotation);
+            if (PhotonNetwork.InRoom) view.RPC(nameof(SpawnContents), RpcTarget.All, content, position.x, position.y, rotation);
+            else SpawnContents(content, position.x, position.y, rotation);
         }
     }
 
