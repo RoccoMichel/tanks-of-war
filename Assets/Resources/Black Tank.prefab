@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4373819240325577056, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_Name
-      value: Black Tank Variant
+      value: Black Tank
       objectReference: {fileID: 0}
     - target: {fileID: 4947892663238936430, guid: 9581dbb8dd0d83045b56554efa2e00a1, type: 3}
       propertyPath: m_LocalPosition.x

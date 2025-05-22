@@ -177,7 +177,7 @@ public class GamemodeManager : MonoBehaviour
     /// <param name="winner">congratulated user in the UI</param>
     private void RoundOver(bool resetStats, float nextRoundInSeconds, BasePlayer winner)
     {
-        if (resetStats) Invoke(nameof(ResetStats), nextRoundInSeconds);
+        if (resetStats) Invoke(nameof(ResetStats), nextRoundInSeconds + 0.5f);
         foreach (BasePlayer player in playerList)
         {
             player.DisablePlayer();
@@ -186,6 +186,8 @@ public class GamemodeManager : MonoBehaviour
 
         Announce($"{winner.identity} has won", 5);
         FindAnyObjectByType<PlayerHUD>().ShowLeaderboard(true);
+
+        if (!PhotonNetwork.IsMasterClient) return;
         FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"{winner.identity} has won {gamemode}!");
         FindAnyObjectByType<ChatManager>().SendChatMessage("SYSTEM", $"Starting next round in {nextRoundInSeconds} seconds.");
     }

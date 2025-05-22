@@ -65,7 +65,7 @@ public class PlayerHUD : MonoBehaviour
         else // Display Player health and ammo
         {
             health.text = "HP: " + playerScript.health.ToString();
-            ammo.text = player.GetComponentInChildren<Turret>().ammo.ToString() + " Round(s) Left";
+            ammo.text = "Round(s): " + player.GetComponentInChildren<Turret>().ammo.ToString();
         }
 
         // Toggle between leaderboard and glanceboard
